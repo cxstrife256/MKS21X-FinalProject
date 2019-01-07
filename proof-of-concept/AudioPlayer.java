@@ -14,16 +14,31 @@ public class AudioPlayer {
 
   static String filepath;
 
-  public AudioPlayer() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-    audioInputStream = AudioSystem.getAudioInputStream(new File(filepath).getAbsoluteFile());
+  public AudioPlayer(String filepath) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    this.filepath = filepath;
+    audioInputStream = AudioSystem.getAudioInputStream(new File(this.filepath).getAbsoluteFile());
 
     clip = AudioSystem.getClip();
     clip.open(audioInputStream);
+    clip.loop(Clip.LOOP_CONTINUOUSLY);
 
   }
 
   public void play() {
 		clip.start();
+
+	}
+
+  public void stop() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		clip.stop();
+		clip.close();
+
+	}
+
+  public void resetAudioStream() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		audioInputStream = AudioSystem.getAudioInputStream(new File(filepath).getAbsoluteFile());
+		clip.open(audioInputStream);
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
 
 	}
 
