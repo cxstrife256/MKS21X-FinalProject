@@ -13,14 +13,18 @@ public class AudioPlayer {
   AudioInputStream audioInputStream;
 
   static String filepath;
+  boolean is_looped;
 
-  public AudioPlayer(String filepath) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+  public AudioPlayer(String filepath, boolean is_looped) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
     this.filepath = filepath;
+    this.is_looped = is_looped;
+
     audioInputStream = AudioSystem.getAudioInputStream(new File(this.filepath).getAbsoluteFile());
 
     clip = AudioSystem.getClip();
     clip.open(audioInputStream);
-    clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+    if(this.is_looped) { clip.loop(Clip.LOOP_CONTINUOUSLY); }
 
   }
 
@@ -38,7 +42,8 @@ public class AudioPlayer {
   public void resetAudioStream() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		audioInputStream = AudioSystem.getAudioInputStream(new File(filepath).getAbsoluteFile());
 		clip.open(audioInputStream);
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+		if(this.is_looped) { clip.loop(Clip.LOOP_CONTINUOUSLY); }
 
 	}
 
