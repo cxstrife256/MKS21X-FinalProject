@@ -26,9 +26,7 @@ public class Driver {
 			AudioPlayer CURSOR_READY = new AudioPlayer("../media/Effects/CURSOR_READY.wav", false);
       CURSOR_READY.play();
 
-      AudioPlayer GENKAI_WO_KOERU = new AudioPlayer("../media/Effects/GENKAI_WO_KOERU.wav", false);
-
-      AudioPlayer CURSOR_MOVE = new AudioPlayer("../media/Effects/CURSOR_MOVE.wav", false);
+      // AudioPlayer CURSOR_MOVE = new AudioPlayer("../media/Effects/CURSOR_MOVE.wav", false);
 
       Terminal terminal = TerminalFacade.createTextTerminal();
   		terminal.enterPrivateMode();
@@ -55,16 +53,15 @@ public class Driver {
   					terminal.moveCursor(x, y);
   					terminal.putCharacter(' ');
   					y -= 1;
-            CURSOR_MOVE.play();
+            // CURSOR_MOVE.play();
   				}
 
   				if(key.getKind() == Key.Kind.ArrowDown) {
   					terminal.moveCursor(x, y);
   					terminal.putCharacter(' ');
   					y += 1;
-            CURSOR_MOVE.play();
+            // CURSOR_MOVE.play();
   				}
-          putString(1, 1, terminal, key + "          ");
         }
 
         putString(0, 0, terminal, "  Item");
@@ -76,8 +73,8 @@ public class Driver {
         putString(0, 7, terminal, "  Config");
         putString(0, 9, terminal, "  Save");
 
-        CURSOR_MOVE.stop();
-        CURSOR_MOVE.resetAudioStream();
+        // CURSOR_MOVE.stop();
+        // CURSOR_MOVE.resetAudioStream();
 
       }
 
