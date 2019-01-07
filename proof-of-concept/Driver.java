@@ -26,6 +26,8 @@ public class Driver {
 			AudioPlayer CURSOR_READY = new AudioPlayer("../media/Effects/CURSOR_READY.wav", false);
       CURSOR_READY.play();
 
+      AudioPlayer GENKAI_WO_KOERU = new AudioPlayer("../media/Effects/GENKAI_WO_KOERU.wav", false);
+
       AudioPlayer CURSOR_MOVE = new AudioPlayer("../media/Effects/CURSOR_MOVE.wav", false);
 
       Terminal terminal = TerminalFacade.createTextTerminal();
