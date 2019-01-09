@@ -1,4 +1,5 @@
 public abstract class Squishy {
+  
   public int hitpoints;
   public int strength;
   public int dexterity;
