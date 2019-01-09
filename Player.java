@@ -3,11 +3,6 @@ public class Player extends Squishy {
   private int damage_taken;   // damage taken to calculate limit
   private int manapoints;
 
-  public void attack(Squishy other) {
-    // do the attack thingy
-
-  }
-
   public Player(int hitpoints, int strength, int dexterity, int vitality, int magic, int spirit, int luck, int manapoints) {
     this.hitpoints = hitpoints;
     this.strength = strength;
