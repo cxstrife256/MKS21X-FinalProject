@@ -1,5 +1,5 @@
 public abstract class Squishy {
-  
+
   public int hitpoints;
   public int strength;
   public int dexterity;
@@ -15,5 +15,10 @@ public abstract class Squishy {
   public int magic_atk;           // magic
   public int magic_def;           // spirit            + armour mdefense bonus
   public int magic_def_percent;   //                     armour mdefense% bonus
+
+  public void attack(Squishy other) {
+    // do the attack thingy
+
+  }
 
 }
