@@ -14,8 +14,9 @@ public class GuardScorpion extends Squishy {
   }
 
   public void tailLaser(Squishy other) {
-    // do the attack with the tail Laser
-    // when attacked when tailUp is true, do tailLaser
+    // do the attack thingy, but with tailLaser
+    // if attacked when tailUp is true, use tailLaser
+
   }
 
 }
