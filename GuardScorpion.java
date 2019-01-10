@@ -1,4 +1,4 @@
-public class GuardScorpion extends Enemy {
+public class GuardScorpion extends Squishy {
 
   private boolean tail_raised;
 
