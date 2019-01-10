@@ -1,24 +1,21 @@
-public class GuardScorpion extends Enemy{
+public class GuardScorpion extends Enemy {
 
-  private boolean tailUp;
-
-  public void attack(Squishy other){
-    //do the attack thingy
-  }
-
-  public void tailLaser(Squishy other){
-    //do the attack with the tail Laser
-    //when attacked when tailUp is true, do tailLaser
-  }
+  private boolean tail_raised;
 
   public GuardScorpion(int hitpoints, int strength, int dexterity, int vitality, int magic, int spirit, int luck) {
-    this.hitpoints = hitpoints;
-    this.strength = strength;
-    this.dexterity = dexterity;
-    this.vitality = vitality;
-    this.magic = magic;
-    this.spirit = spirit;
-    this.luck = luck;
+    super(hitpoints, strength, dexterity, vitality, magic, spirit, luck);
+    tail_raised = false;
 
   }
+
+  public void attack(Squishy other) {
+    // do the attack thingy
+
+  }
+
+  public void tailLaser(Squishy other) {
+    // do the attack with the tail Laser
+    // when attacked when tailUp is true, do tailLaser
+  }
+
 }
