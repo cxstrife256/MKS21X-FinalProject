@@ -1,4 +1,4 @@
-public class Grunt extends Enemy {
+public class Grunt extends Squishy {
 
   public Grunt(int hitpoints, int strength, int dexterity, int vitality, int magic, int spirit, int luck) {
     super(hitpoints, strength, dexterity, vitality, magic, spirit, luck);

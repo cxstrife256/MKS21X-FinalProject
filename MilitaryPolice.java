@@ -1,3 +1,3 @@
-public class MilitaryPolice extends Enemy {
-  
+public class MilitaryPolice extends Squishy {
+
 }
