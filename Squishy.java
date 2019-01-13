@@ -32,4 +32,9 @@ public abstract class Squishy {
 
   }
 
+  public void takeDamage(int damage) {
+    // reduce hitpoints by amount int damage
+    
+  }
+
 }
