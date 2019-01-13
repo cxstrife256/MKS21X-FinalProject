@@ -10,4 +10,8 @@ public class Player extends Squishy {
     this.manapoints = manapoints;
     this.level = level;
 
+  }
+
+  // takeDamage(), limit increase
+
 }
