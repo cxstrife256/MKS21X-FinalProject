@@ -9,21 +9,23 @@ public class GuardScorpion extends Squishy {
   }
 
   public void attack(Squishy other) {
-    /*
-      if tail_raised is true
-        use tailLaser for attack
-        reset tail_raised to false
-      else
-        deal dmg by formula
-    */
+    // if tail_raised is true
+    //   use tailLaser for attack
+    //   reset tail_raised to false
+    // else
+    //   deal dmg by formula
 
   }
 
-  private void tailLaser(Squishy other) {
-    /*
-      used for attack when tail_raised is true
-      deal 1.5x standard attack dmg to all enemies
-    */
+  public void tailLaser(Squishy other) {
+    // used for attack when tail_raised is true
+    // deal 1.5x standard attack dmg to all enemies
+
+  }
+
+  public void takeDamage(int damage) {
+    // if attacked
+    //   set tail_raised true
 
   }
 
