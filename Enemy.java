@@ -1,7 +1,13 @@
 public class Enemy extends Squishy {
 
-  // Enemy constructor
+  public Enemy(int hitpoints, int strength, int dexterity, int vitality, int magic, int spirit, int luck) {
+    super(hitpoints, strength, dexterity, vitality, magic, spirit, luck);
 
-  // takeDamage()
+  }
+
+  public void takeDamage(int damage) {
+    // Enemy class takes damage equal to given int damage
+    
+  }
 
 }
