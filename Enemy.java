@@ -6,8 +6,8 @@ public class Enemy extends Squishy {
   }
 
   public void takeDamage(int damage) {
-    // Enemy class takes damage equal to given int damage
-    
+    // takes damage equal to given int damage
+
   }
 
 }
