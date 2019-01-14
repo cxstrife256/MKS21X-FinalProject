@@ -32,16 +32,19 @@ abstract class Squishy {
     magic_atk = magic;
     magic_def = spirit;
     magic_def_percent = 100;
+
   }
 
-  public void attack (Squishy target, int value) {
-    //The Physical Formula for Base Damage is defined as such:
-    //Base Damage = Att + [(Att + Lvl) / 32] * [(Att * Lvl) / 32]
-    int power = value;   //will equal something based on what attack they use
-    int Base_Damage = attack + ( ( attack + 5) / 32 ) * (( attack * 5) / 32);
-    int Damage = ( power * ( 512 - target.defense * Base_Damage) / ( 16 * 512));
+  public void attack(Squishy target, int level, int power) {
+    // the Physical Formula for Base Damage is defined as such:
+    // Base Damage = Att + [(Att + Lvl) / 32] * [(Att * Lvl) / 32]
+    int base_damage = attack + ((attack + level) / 32) * ((attack * level) / 32);
 
-    target.takeDamage( Damage);
+    // Ability Power and the Defense Stat are then used:
+    // Damage = [(Power * (512 - Def) * Base Damage) / (16 * 512)]
+    int damage = ((power * (512 - target.defense) * base_damage) / (16 * 512));
+
+    target.takeDamage(damage);
 
   }
 
