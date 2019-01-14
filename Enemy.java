@@ -7,11 +7,6 @@ public class Enemy extends Squishy {
 
   }
 
-  public void takeDamage(int damage) {
-    int newhp = getHitpoints() - damage;
-    setHitpoints(newhp);
-
-  }
 
   public Squishy targetSelector(ArrayList<Squishy> targets) {
     if(targets.size() == 1 || (((Math.random() * 10000) % 2 ) == 0)) {
