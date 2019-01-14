@@ -7,6 +7,8 @@ public class Map_Driver{
     Map ROOM_1 = new Map(10,7);
     System.out.println(ROOM_1);
 
+    ROOM_1.setMap("|-----|,|.....|,>.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|-----|");
+    System.out.println(ROOM_1);
     /*
       | — — — — — |
       | . . . . . |
