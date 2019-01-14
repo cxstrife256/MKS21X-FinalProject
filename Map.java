@@ -31,14 +31,16 @@ public class Map {
   }
 
   public void setMap(String layout) {
-    int r = 0;
-    char t = '.';
+    int row, index;
+    char temp = '.';
     for(int i=0; i<layout.length(); i++) {
-      t = layout.charAt(i);
-      if(t == ',') {
+      temp = layout.charAt(i);
+      if(temp == ',') {
         r += 1;
+        index = 0;
       } else {
-        data[r][((i - r) % data[r].length) - 1] = t;
+        data[r][index] = temp;
+        index++;
       }
     }
 
