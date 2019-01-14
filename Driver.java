@@ -27,10 +27,10 @@ public class Driver {
     System.out.println(Cloud.getHitpoints());
     System.out.println(Barret.getHitpoints());
 
-    // Cloud attacking Woof
+    // select Enemy, only "Woof"
     Cloud.attack(Woof, 39);
 
-    //check for reduced hitpoints
+    // check for reduced hitpoints
     System.out.println(Woof.getHitpoints());
 
   }
