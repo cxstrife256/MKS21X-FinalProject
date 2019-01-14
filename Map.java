@@ -1,9 +1,9 @@
 public class Map {
 
-  private String[][] data;
+  private char[][] data;
 
   public Map(int rows, int cols) {
-    data = new String[rows][cols];
+    data = new char[rows][cols];
     clear();
 
   }
@@ -11,11 +11,28 @@ public class Map {
   private void clear() {
     for(int i=0; i<data.length; i++) {
       for(int j=0; j<data[i].length; j++) {
-        data[i][j] = '.' + " ";
+        data[i][j] = '.';
       }
     }
 
   }
+
+  public String toString() {
+    String output;
+    for(int i=0; i<data.length; i++) {
+      for(int j=0; j<data[i].length; j++) {
+        output += data[i][j] + " ";
+      }
+      output += "\n";
+    }
+  }
+
+  // public boolean canMove(int x, int y, int xdirec, int ydirec) {
+  //   return data[x+xdirec][y+ydirec] == '.';
+  //
+  // }
+
+  // MapExample.setMapOrSmth("|-----|,|.....|,>.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|-----|");
 
   /*
     | — — — — — |
