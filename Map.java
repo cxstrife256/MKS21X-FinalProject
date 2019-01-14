@@ -30,11 +30,25 @@ public class Map {
 
   }
 
-  // public boolean canMove(int x, int y, int xdirec, int ydirec) {
-  //   return data[x+xdirec][y+ydirec] == '.';
-  //
-  // }
+  public void setMap(String layout) {
+    int r = 0;
+    char t = '.';
+    for(int i=0; i<layout.length(); i++) {
+      t = layout.charAt(i);
+      if(t == ',') {
+        r += 1;
+      } else {
+        data[r][((i - r) % data[r].length) - 1] = t;
+      }
+    }
 
-  // MapExample.setMapOrSmth("|-----|,|.....|,>.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|-----|");
+  }
+
+  /*
+  public boolean canMove(int x, int y, int xdirec, int ydirec) {
+    return data[x+xdirec][y+ydirec] == '.';
+
+  }
+  */
 
 }
