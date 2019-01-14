@@ -12,6 +12,4 @@ public class Player extends Squishy {
 
   }
 
-
-
 }
