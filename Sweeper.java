@@ -6,16 +6,20 @@ public class Sweeper extends Enemy {
   }
 
   public void attack(Squishy target) {
-    int counter = Math.abs((int)Math.random() * 10000) % 3;
+    int count = (int)(Math.random() * 10000) % 4;
 
-    if(counter == 0){
-      super.attack(target, 10); //this seems pointless, however flavor text will set them appart soon
-    }
-    if(counter == 1){
-      super.attack(target, 10);
-    }
-    if(counter == 2){
+    if(count == 0) {
+      // Smoke Shot
+      super.attack(target, 11);
+
+    } else if(count == 1) {
+      // Machine Gun
+      super.attack(target, 7);
+
+    } else {
+      // W Machine Gun
       super.attack(target, 14);
+
     }
 
   }
