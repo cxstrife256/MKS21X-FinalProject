@@ -25,6 +25,14 @@ abstract class Squishy {
     this.spirit = spirit;
     this.luck = luck;
 
+    attack = strength;
+    attack_percent = 100;
+    defense = vitality;
+    defense_percent = 100;
+    magic_atk = magic;
+    magic_def = spirit;
+    magic_def_percent = 100;
+
   }
 
   public abstract void attack(Squishy other);
