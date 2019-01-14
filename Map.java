@@ -18,7 +18,7 @@ public class Map {
   }
 
   public String toString() {
-    String output;
+    String output = "";
     for(int i=0; i<data.length; i++) {
       for(int j=0; j<data[i].length; j++) {
         output += data[i][j] + " ";
