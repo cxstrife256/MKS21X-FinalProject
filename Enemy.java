@@ -1,5 +1,4 @@
-import java.io.*;  //too hard to actually remember which one is ArrayList
-import java.util.*;
+import java.util.ArrayList;
 
 public class Enemy extends Squishy {
 
