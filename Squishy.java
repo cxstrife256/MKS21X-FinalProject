@@ -48,16 +48,6 @@ abstract class Squishy {
 
   }
 
-  public int getAttack() {
-    return attack;
-
-  }
-
-  public int getDefense() {
-    return defense;
-    
-  }
-
   public void takeDamage(int damage) {
     hitpoints -= damage;
 
