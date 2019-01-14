@@ -10,4 +10,10 @@ public class Enemy extends Squishy {
 
   }
 
+  // in enemy function Squishy targetSelector(ArrayList)
+  // void attack()
+  //   Squishy target = targetSelector(ArrayList)
+  //   int damage = calculations based on target and attacker
+  //   target.takeDamage(damage)
+
 }
