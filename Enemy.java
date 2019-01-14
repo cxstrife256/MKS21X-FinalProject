@@ -9,7 +9,8 @@ public class Enemy extends Squishy {
   }
 
   public void takeDamage(int damage) {
-    // takes damage equal to given int damage
+    int newhp = getHitpoints() - damage;
+    setHitpoints(newhp);
 
   }
 
@@ -18,7 +19,7 @@ public class Enemy extends Squishy {
       return targets.get(0);
     }
     return targets.get(1);
-    
+
   }
 
   // in enemy function Squishy targetSelector(ArrayList)
