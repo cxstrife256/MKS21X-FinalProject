@@ -33,8 +33,8 @@ public class Map {
   public void setMap(String layout) {
     int row, index;
     row = index = 0;
-    char temp = '.';
-    
+    char temp = ' ';
+
     for(int i=0; i<layout.length(); i++) {
       temp = layout.charAt(i);
       if(temp == ',') {
@@ -48,11 +48,22 @@ public class Map {
 
   }
 
-  /*
-  public boolean canMove(int x, int y, int xdirec, int ydirec) {
-    return data[x+xdirec][y+ydirec] == '.';
+  public int move(int x, int y, int xdirec, int ydirec) {
+    /*
+      0 if you can't go there
+      1 if it's just a dot
+      2 if it's a staircase
+    */
+    if(data[x+xdirec][y+ydirec] == '>') {
+      return 1;
+    } else if(data[x+xdirec][y+ydirec] == '<') {
+      return -1;
+    } else if(data[x+xdirec][y+ydirec] == '.') {
+      return 2;
+    } else {
+      return 0;
+    }
 
   }
-  */
 
 }
