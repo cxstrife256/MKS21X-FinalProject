@@ -34,6 +34,7 @@ public class Map {
     int row, index;
     row = index = 0;
     char temp = '.';
+    
     for(int i=0; i<layout.length(); i++) {
       temp = layout.charAt(i);
       if(temp == ',') {
