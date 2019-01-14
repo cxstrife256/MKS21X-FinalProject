@@ -9,6 +9,14 @@ public class Player extends Squishy {
     super(hitpoints, strength, dexterity, vitality, magic, spirit, luck);
     this.manapoints = manapoints;
     this.level = level;
+    damage_taken = 0;
+
+  }
+
+  public void takeDamage(int damage) {
+    super.takeDamage(damage);
+    damage_taken += damage;
+    // do something (who knows) with limit
 
   }
 
