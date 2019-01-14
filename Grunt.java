@@ -6,8 +6,12 @@ public class Grunt extends Enemy {
   }
 
   public void attack(Squishy target) {
-    super.attack(target, 10);
-
+    if((int)Math.random() * 10000 % 2 == 0){
+      super.attack(target, 7);   //handclaw
+    }else{
+      super.attack(target, 10);  //beam gun
+    }
+    
   }
 
 }
