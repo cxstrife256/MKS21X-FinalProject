@@ -3,31 +3,29 @@ public class Driver {
 
   public static void main(String[] args) {
 
+    ArrayList<Squishy> players = new ArrayList<Squishy>();
+
+    // init instance "Cloud" of Player
     Player Cloud = new Player("Cloud", 314, 20, 6, 16, 19, 17, 14, 54, 6);
-     // tonfa does 7 dmg
-     // machine gun does 4
-     // basic does 38/39 ouch
-     // write this down somewhere
+    Players.add(Cloud);
 
-     ArrayList<Squishy> Players = new ArrayList<Squishy>();
-     Players.add(Cloud);
+    // init instance "Woof" of GuardDog of Enemy
+    GuardDog Woof = new GuardDog(100, 10, 4, 13, 15, 14, 13);
 
-     GuardDog Woof = new GuardDog(100, 10, 4, 13, 15, 14, 13);
+    // select Player at random, only "Cloud"
+    Woof.attack(Woof.selectTarget(players));
+    // check for reduced hitpoints
+    System.out.println(Cloud.getHitpoints());
 
-     Woof.attack(Woof.selectTarget(Players));
+    // init instance "Barret" of Player
+    Player Barret = new Player("Barret", 222, 15, 5, 13, 11, 9, 13, 15, 1);
+    players.add(Barret);
 
-     System.out.println(Cloud.getHitpoints());
-
-     Player Barret = new Player("Barret", 300, 20, 6, 16, 19, 17, 14, 54, 6);
-     Players.add(Barret);
-
-
-     Woof.attack(Woof.selectTarget(Players));
-
-
-
-     System.out.println(Cloud.getHitpoints());
-     System.out.println(Barret.getHitpoints());
+    // select Player at random, "Cloud"/"Barret"
+    Woof.attack(Woof.selectTarget(players));
+    // check for reduced hitpoints
+    System.out.println(Cloud.getHitpoints());
+    System.out.println(Barret.getHitpoints());
 
   }
 
