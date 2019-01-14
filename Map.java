@@ -25,6 +25,9 @@ public class Map {
       }
       output += "\n";
     }
+
+    return output;
+
   }
 
   // public boolean canMove(int x, int y, int xdirec, int ydirec) {
