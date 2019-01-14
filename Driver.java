@@ -7,10 +7,10 @@ public class Driver {
 
     // init instance "Cloud" of Player
     Player Cloud = new Player("Cloud", 314, 20, 6, 16, 19, 17, 14, 54, 6);
-    Players.add(Cloud);
+    players.add(Cloud);
 
     // init instance "Woof" of GuardDog of Enemy
-    GuardDog Woof = new GuardDog(100, 10, 4, 13, 15, 14, 13);
+    GuardDog Woof = new GuardDog(42, 8, 64, 2, 4, 2, 6);
 
     // select Player at random, only "Cloud"
     Woof.attack(Woof.selectTarget(players));
@@ -26,6 +26,12 @@ public class Driver {
     // check for reduced hitpoints
     System.out.println(Cloud.getHitpoints());
     System.out.println(Barret.getHitpoints());
+
+    // Cloud attacking Woof
+    Cloud.attack(Woof, 39);
+
+    //check for reduced hitpoints
+    System.out.println(Woof.getHitpoints());
 
   }
 
