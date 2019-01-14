@@ -6,10 +6,14 @@ public class MilitaryPolice extends Enemy {
   }
 
   public void attack(Squishy target) {
-    if( Math.random() * 10000 % 2 == 0){
-      super.attack(target, 10);
+    if((int)(Math.random() * 10000) % 2 == 0) {
+      // Machine Gun
+      super.attack(target, 7);
+
     } else {
-      super.attack(target, 13);
+      // Tonfa
+      super.attack(target, 10);
+
     }
 
   }
