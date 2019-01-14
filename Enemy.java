@@ -9,7 +9,8 @@ public class Enemy extends Squishy {
   }
 
   public void takeDamage(int damage) {
-    // takes damage equal to given int damage
+    int newhp = getHitpoints() - damage;
+    setHitpoints(newhp);
 
   }
 
