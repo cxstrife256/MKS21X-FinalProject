@@ -1,4 +1,4 @@
-public abstract class Squishy {
+abstract class Squishy {
 
   private int hitpoints;
   private int strength;
@@ -27,35 +27,8 @@ public abstract class Squishy {
 
   }
 
-  public void attack(Squishy other) {
-    // do the attack thingy
-    // count the dead
+  public abstract void attack(Squishy other);
 
-  }
-
-  public int getAttack() {
-    return attack;
-
-  }
-
-  public int getDefense(){
-    return this.vitality; // returns viatlity, weapons not yet added send help
-
-  }
-
-  public void setHitpoints(int value) {
-    hitpoints = value; //
-
-  }
-
-  public int getHitpoints() {
-    return hitpoints;
-    
-  }
-
-  public void takeDamage(int damage) {
-    // reduce hitpoints by amount int damage
-
-  }
+  public abstract void takeDamage(int damage);
 
 }
