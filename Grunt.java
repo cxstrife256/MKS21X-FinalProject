@@ -5,9 +5,9 @@ public class Grunt extends Enemy {
 
   }
 
-  public void attack() {
-    int power = 10;
-    attack(targetSelector(Players), power);
+  public void attack(Squishy target) {
+    super.attack(target, 10);
+
   }
 
 }
