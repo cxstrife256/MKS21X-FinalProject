@@ -51,8 +51,9 @@ public class Map {
   public int move(int x, int y, int xdirec, int ydirec) {
     /*
       0 if you can't go there
-      1 if it's just a dot
-      2 if it's a staircase
+      2 if it's just a dot
+      1 if it's a staircase going foward
+      -1 if it's a staircase going previous
     */
     if(data[x+xdirec][y+ydirec] == '>') {
       return 1;
