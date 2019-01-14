@@ -32,11 +32,13 @@ public class Map {
 
   public void setMap(String layout) {
     int row, index;
+    row = index = 0;
     char temp = '.';
+    
     for(int i=0; i<layout.length(); i++) {
       temp = layout.charAt(i);
       if(temp == ',') {
-        r += 1;
+        row += 1;
         index = 0;
       } else {
         data[r][index] = temp;
