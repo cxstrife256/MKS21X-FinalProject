@@ -12,7 +12,7 @@ public class Enemy extends Squishy {
 
   }
 
-  public Squishy targetSelector(ArrayList<Squishy> targets) {
+  public Squishy selectTarget(ArrayList<Squishy> targets) {
     return targets.get((int)(Math.random() * 10000) % targets.size());
 
   }
