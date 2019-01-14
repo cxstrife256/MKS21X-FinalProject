@@ -53,4 +53,10 @@ abstract class Squishy {
 
   }
 
+  // basic accessor methods, test purposes
+  public int getHitpoints() {
+    return hitpoints;
+    
+  }
+
 }
