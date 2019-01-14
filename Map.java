@@ -1,9 +1,9 @@
 public class Map {
 
-  private char[][] data;
+  private String[][] data;
 
   public Map(int rows, int cols) {
-    data = new char[rows][cols];
+    data = new String[rows][cols];
     clear();
 
   }
@@ -11,7 +11,7 @@ public class Map {
   private void clear() {
     for(int i=0; i<data.length; i++) {
       for(int j=0; j<data[i].length; j++) {
-        data[i][j] = '.';
+        data[i][j] = '.' + " ";
       }
     }
 
