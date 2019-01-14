@@ -12,10 +12,6 @@ public class Player extends Squishy {
 
   }
 
-  public void takeDamage(int damage) { //limit wasn't invented yet
-    int newhp = getHitpoints() - damage;
-    setHitpoints(newhp);
 
-  }
 
 }
