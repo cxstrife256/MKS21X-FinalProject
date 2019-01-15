@@ -1,19 +1,20 @@
 public class Map {
 
-  private char[][] data;
+  private char[][] data;            // this is what the rooms are made of
+  private String[][] map_archive;   // this is where we are putting all the Strings for setMap
+  private int room_ID;              // this is how we keep track of which room we are in
 
-  public Map(int rows, int cols) {
-    data = new char[rows][cols];
-    clear();
+  public Map() {
+    //                 room setMap() string                                                              rows  cols
+    map_archive = {
+                      {"|-----|,|.....|,>.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|-----|", "10", "7"},
+                      {"|----|,|....|,|....|,|....<,|----|"                                             , "5" , "6"}
+                  };
+    // default first room
+    room_ID = 0;
 
-  }
-
-  private void clear() {
-    for(int i=0; i<data.length; i++) {
-      for(int j=0; j<data[i].length; j++) {
-        data[i][j] = '.';
-      }
-    }
+    // set map (data) according to room_ID
+    resetMap();
 
   }
 
@@ -27,6 +28,17 @@ public class Map {
     }
 
     return output;
+
+  }
+
+  public void resetMap() {
+    resize((int)map_archive[room_ID][1], (int)map_archive[room_ID][2];
+    setMap(map_archive[room_ID][0]);
+
+  }
+
+  public void resize(int rows, int cols) {
+    data = new char[rows][cols];
 
   }
 
@@ -48,22 +60,28 @@ public class Map {
 
   }
 
-  public int move(int x, int y, int xdirec, int ydirec) {
-    /*
-      0 if you can't go there
-      1 if it's just a dot
-      2 if it's a staircase
-    */
-    if(data[x+xdirec][y+ydirec] == '>') {
-      return 1;
-    } else if(data[x+xdirec][y+ydirec] == '<') {
-      return -1;
-    } else if(data[x+xdirec][y+ydirec] == '.') {
-      return 2;
+  public boolean canMove(int x, int y, int xdirec, int ydirec) {
+    char destination = data[x+xdirec][y+ydirec];
+
+    // encounter door/stair to next room
+    if(destination == '>') {
+      room_ID += 1;
+      resetMap();
+      return true;
+
+    // encounter door/stair to prev room
+  } else if(destination == '<') {
+      room_ID -= 1;
+      resetMap();
+      return true;
+
+    // encounter normal tile, checking if destination is a legal move
     } else {
-      return 0;
+      return destination == '.';
+
     }
 
   }
+
 
 }
