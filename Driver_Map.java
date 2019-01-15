@@ -2,6 +2,7 @@ public class Driver_Map {
 
   public static void main(String[] args) {
 
+    // init a map
     Map mappy = new Map();
 
     // should be the first room
@@ -34,7 +35,7 @@ public class Driver_Map {
 
     // test canMove()
     // stairs
-    System.out.println(mappy.canMove(3, 4, 0, 1));    // true
+    System.out.println(mappy.canMove(4, 3, 1, 0));    // true
 
     // should be the first room
     System.out.println(mappy);
@@ -52,8 +53,8 @@ public class Driver_Map {
     */
 
     // walls
-    System.out.println(mappy.canMove(1, 1, -1, 0));   // false
     System.out.println(mappy.canMove(1, 1, 0, -1));   // false
+    System.out.println(mappy.canMove(1, 1, -1, 0));   // false
 
     // boring normal tiles
     System.out.println(mappy.canMove(1, 1, 1, 1));    // true
