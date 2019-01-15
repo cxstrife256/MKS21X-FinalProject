@@ -6,12 +6,12 @@ public class Map {
 
   public Map() {
     //                      room setMap() string                                                              rows  cols
-    String[][] newmap = {
+    String[][] maps = {
                           {"|-----|,|.....|,>.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|-----|", "10", "7"},
                           {"|----|,|....|,|....|,|....<,|----|"                                             , "5" , "6"},
 
                         };
-    map_archive = newmap;
+    map_archive = maps;
     // default first room
     room_ID = 0;
 
@@ -83,6 +83,12 @@ public class Map {
 
     }
 
+  }
+
+  // debug function for us to test room changing
+  public void changeRoomDebug( int index) {
+    room_ID += index;
+    resetMap();
   }
 
 }
