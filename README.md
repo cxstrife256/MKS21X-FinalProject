@@ -55,4 +55,5 @@ Initialized remaining classes and added attack function
 ## Timothy
  Finished class structure, added a driver, fixed formatting on the driver. Added Map class and constructor.
 
-## Cody - Finished class structure, added a driver and tested to make sure the numbers were logical. Added Map class and constructor.
+## Cody
+Finished class structure, added a driver and tested to make sure the numbers were logical. Added Map class and constructor.
