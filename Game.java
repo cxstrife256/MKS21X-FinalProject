@@ -5,6 +5,7 @@ public class Game{
     ArrayList<Squishy> Players = new ArrayList<Squishy>();
 
     // init instance of player "Cloud" and add Cloud to list of players
+    //                         Name     hp  atk dex vit mag spt lck mp lv
     Player Cloud = new Player("Cloud", 314, 20, 6, 16, 19, 17, 14, 54, 6);
     Players.add(Cloud);
 
@@ -19,5 +20,14 @@ public class Game{
 
     Enemies.add(MP1);
     Enemies.add(MP2);
+
+    // int map
+    Map map = new Map();
+
+    // should default to first room
+
+    // System.out.println(map);
+
+
   }
 }
