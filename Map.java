@@ -12,7 +12,7 @@ public class Map {
 
                         };
     map_archive = maps;
-    
+
     // default first room
     room_ID = 0;
 
@@ -64,7 +64,7 @@ public class Map {
   }
 
   public boolean canMove(int x, int y, int xdirec, int ydirec) {
-    char destination = data[x+xdirec][y+ydirec];
+    char destination = data[y+ydirec][x+xdirec];
 
     // encounter door/stair to next room
     if(destination == '>') {
