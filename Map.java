@@ -5,13 +5,15 @@ public class Map {
   private int room_ID;              // this is how we keep track of which room we are in
 
   public Map() {
-    //                 room setMap() string                                                              rows  cols
-    map_archive = {
-                      {"|-----|,|.....|,>.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|-----|", "10", "7"},
-                      {"|----|,|....|,|....|,|....<,|----|"                                             , "5" , "6"}
-                  };
+    //                          room setMap() string                                                              rows  cols
+    String[][] map_archive = {
+                                {"|-----|,|.....|,>.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|-----|", "10", "7"},
+                                {"|----|,|....|,|....|,|....<,|----|"                                             , "5" , "6"},
+
+                             };
+
     // default first room
-    room_ID = 0;
+    room_ID = 0       ;
 
     // set map (data) according to room_ID
     resetMap();
@@ -32,7 +34,7 @@ public class Map {
   }
 
   public void resetMap() {
-    resize((int)map_archive[room_ID][1], (int)map_archive[room_ID][2];
+    resize(Integer.parseInt(map_archive[room_ID][1]), Integer.parseInt(map_archive[room_ID][2]));
     setMap(map_archive[room_ID][0]);
 
   }
