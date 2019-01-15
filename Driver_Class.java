@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-public class ClassStructure_Driver {
+public class Driver_Class {
 
   public static void main(String[] args) {
 
