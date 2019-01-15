@@ -60,7 +60,6 @@ public class Map {
 
   }
 
-<<<<<<< HEAD
   public boolean canMove(int x, int y, int xdirec, int ydirec) {
     char destination = data[x+xdirec][y+ydirec];
 
@@ -71,33 +70,17 @@ public class Map {
       return true;
 
     // encounter door/stair to prev room
-  } else if(destination == '<') {
+    } else if(destination == '<') {
       room_ID -= 1;
       resetMap();
       return true;
 
     // encounter normal tile, checking if destination is a legal move
-=======
-  public int move(int x, int y, int xdirec, int ydirec) {
-    /*
-      0 if you can't go there
-      2 if it's just a dot
-      1 if it's a staircase going foward
-      -1 if it's a staircase going previous
-    */
-    if(data[x+xdirec][y+ydirec] == '>') {
-      return 1;
-    } else if(data[x+xdirec][y+ydirec] == '<') {
-      return -1;
-    } else if(data[x+xdirec][y+ydirec] == '.') {
-      return 2;
->>>>>>> e2fccb0c3a0e1b5b8f2bc0f3c09e66d3ee4daa9f
     } else {
       return destination == '.';
 
     }
 
   }
-
 
 }
