@@ -21,34 +21,60 @@ public class Game {
      2 : menu
   */
   private int mode;
+  private ArrayList<Squishy> players;
+  private ArrayList<Squishy> enemies;
+
 
   public static void putString(int row, int col, Terminal t, String str){
 		t.moveCursor(row, col);
 		for(int i=0; i<str.length(); i++) {
 			t.putCharacter(str.charAt(i));
 		}
+
 	}
 
-  // starts a battle
-  public static void battleStart() {
-    int enemycount = 2 + (int)Math.Random() * 10000 % 3;
-    for( int i = 0; i++; i < enemycount){
-      Enemies.add( new MilitaryPolice(30, 6, 50, 4, 0, 0, 4)); // for now the defaul enemy is MilitaryPolice
-      //idk is this is low iq or high iq
-    }
+  // spawn enemies
+  public static void enemySetup() {
+      int enemycount = ((int)(Math.random() * 10000) % 2) + 2;
+      for(int i=0; i<enemycount; i++) {
+        Enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4)); // for now, default enemy is MilitaryPolice
+      }
+
+      // change mode --> battle
+      mode = 1;
+
+  }
+
+  // hardcode setup for first battle
+  public static void firstBattle() {
+    Enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4));
+    Enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4));
+
+    // change mode --> battle
+    mode = 1;
+
+  }
+
+  public static void bossBattle() {
+    // hahahahahahahahahahahahahhahahaha
+    // aahaHahaHAahahahaAHAAHahahahaaaah
     
-  // ends a battle
+  }
+
+  // check enemy count, if == 0, end battle, change mode
   public static void battleEnd() {
-    if(Enemies.isEmpty()){ // check to see if all the enemies are dead
-      mode++
-      mode%=2;
+    if(Enemies.isEmpty()) {
+      // change mode --> world map
+      mode = 0;
     }
 
   }
 
   public static void main(String[] args) {
 
-    ArrayList<Squishy> Players = new ArrayList<Squishy>();
+    mode = 0;
+    players = new ArrayList<Squishy>();
+    enemies = new ArrayList<Squishy>();
 
     // instance of Player "Cloud"
     //                        name     hp     atk  dex  vit  mag  spt  lck  mnp  lvl
@@ -56,22 +82,15 @@ public class Game {
     // add Cloud to list of Players
     Players.add(Cloud);
 
-//  Player Barret = new Player("Barret",   222,  15,  5,  13,  11,  9,  13,  15,  1  );
+//  // instance of Player "Barret"
+//  //                         name        hp     atk  dex  vit  mag  spt  lck  mnp  lvl
+//  Player Barret = new Player("Barret",   222,   15,  5,   13,  11,  9,   13,  15,  1  );
+//  // add Barret to list of Players
 //  Players.add(Barret);
-
-    ArrayList<Squishy> enemies = new ArrayList<Squishy>();
-
-    // instances of two MilitaryPolice as they are the first enemies that Cloud encounters
-    MilitaryPolice Emmet = new MilitaryPolice(30, 6, 50, 4, 0, 0, 4);
-    MilitaryPolice Bernard = new MilitaryPolice(30, 6, 50, 4, 0, 0, 4);
-
-    Enemies.add(Emmet);
-    Enemies.add(Bernard);
 
     // init map
     Map map = new Map();
 
-    mode = 0;
     // set up Terminal
     Terminal terminal = TerminalFacade.createTextTerminal();
     terminal.enterPrivateMode();
