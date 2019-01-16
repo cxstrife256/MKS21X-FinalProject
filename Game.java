@@ -175,29 +175,25 @@ public class Game {
         // loops through list of enemies and places them on the map
         for(int i=0; i<enemies.size(); i++) {
           putString(8, 5 + (i * 3), terminal, "MP");
+          putString(8, 6 + (i * 3), terminal, "" + enemies.get(i).getHitpoints());
         }
 
         for(int i=0; i<players.size(); i++) {
-          putString(30, 5 + (i * 3), terminal, players.get(i).name);
+          putString(30, 5 + (i * 3), terminal, "" + players.get(i).getName());
+          putString(30, 6 + (i * 3), terminal, "" + players.get(i).getHitpoints());
         }
 
-        /*
+        putString(6, 5 + (enemies.size() * 3), terminal, "---------------------------------------");
 
+        Cloud.attack(enemies.get(0), 12);
+        TimeUnit.SECONDS.sleep(1);
 
-          MP              C
+        for(int i=0; i<enemies.size(); i++) {
+          enemies.get(i).attack(enemies.get(i).selectTarget(players));
+        }
+        TimeUnit.SECONDS.sleep(1);
 
-
-          MP
-
-
-          MP
-
-
-        ---------------------------------
-          > Cloud.attack(Enemies[0])
-
-
-        */
+        battleEnd();
 
       }
 
