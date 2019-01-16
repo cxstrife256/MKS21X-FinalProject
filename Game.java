@@ -15,12 +15,36 @@ import java.util.ArrayList;
 
 public class Game {
 
+  // display
+  /* 0 : world map
+     1 : battle
+     2 : menu
+  */
+  private int mode;
+
   public static void putString(int row, int col, Terminal t, String str){
 		t.moveCursor(row, col);
 		for(int i=0; i<str.length(); i++) {
 			t.putCharacter(str.charAt(i));
 		}
 	}
+
+  // starts a battle
+  public static void battleStart() {
+    int enemycount = 2 + (int)Math.Random() * 10000 % 3;
+    for( int i = 0; i++; i < enemycount){
+      Enemies.add( new MilitaryPolice(30, 6, 50, 4, 0, 0, 4)); // for now the defaul enemy is MilitaryPolice
+      //idk is this is low iq or high iq
+    }
+    
+  // ends a battle
+  public static void battleEnd() {
+    if(Enemies.isEmpty()){ // check to see if all the enemies are dead
+      mode++
+      mode%=2;
+    }
+
+  }
 
   public static void main(String[] args) {
 
@@ -34,7 +58,6 @@ public class Game {
 
 //  Player Barret = new Player("Barret",   222,  15,  5,  13,  11,  9,  13,  15,  1  );
 //  Players.add(Barret);
-//  to be added later yehh
 
     ArrayList<Squishy> enemies = new ArrayList<Squishy>();
 
@@ -45,13 +68,11 @@ public class Game {
     Enemies.add(Emmet);
     Enemies.add(Bernard);
 
-    // int map
+    // init map
     Map map = new Map();
 
-    // should default to first room
-
-    // System.out.println(map);
-
+    mode = 0;
+    // set up Terminal
     Terminal terminal = TerminalFacade.createTextTerminal();
     terminal.enterPrivateMode();
 
@@ -62,6 +83,14 @@ public class Game {
     int y = 0;
 
     while(true) {
+
+      // mode: world map
+      if(mode == 0) {
+
+      // mode: battle
+      } else if(mode == 1) {
+
+      }
 
     }
 
