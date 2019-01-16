@@ -11,6 +11,8 @@ import com.googlecode.lanterna.input.InputProvider;
 import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.input.KeyMappingProfile;
 
+import java.util.concurrent.TimeUnit;   // might use for delayed tasks
+
 import java.util.ArrayList;
 
 public class Game {
@@ -20,9 +22,9 @@ public class Game {
      1 : battle
      2 : menu
   */
-  private int mode;
-  private ArrayList<Squishy> players;
-  private ArrayList<Squishy> enemies;
+  private static int mode;
+  private static ArrayList<Squishy> players;
+  private static ArrayList<Squishy> enemies;
 
 
   public static void putString(int row, int col, Terminal t, String str){
@@ -35,20 +37,20 @@ public class Game {
 
   // spawn enemies
   public static void enemySetup() {
-      int enemycount = ((int)(Math.random() * 10000) % 2) + 2;
-      for(int i=0; i<enemycount; i++) {
-        Enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4)); // for now, default enemy is MilitaryPolice
-      }
+    int enemycount = ((int)(Math.random() * 10000) % 2) + 2;
+    for(int i=0; i<enemycount; i++) {
+      enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4)); // for now, default enemy is MilitaryPolice
+    }
 
-      // change mode --> battle
-      mode = 1;
+    // change mode --> battle
+    mode = 1;
 
   }
 
   // hardcode setup for first battle
   public static void firstBattle() {
-    Enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4));
-    Enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4));
+    enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4));
+    enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4));
 
     // change mode --> battle
     mode = 1;
@@ -58,12 +60,12 @@ public class Game {
   public static void bossBattle() {
     // hahahahahahahahahahahahahhahahaha
     // aahaHahaHAahahahaAHAAHahahahaaaah
-    
+
   }
 
   // check enemy count, if == 0, end battle, change mode
   public static void battleEnd() {
-    if(Enemies.isEmpty()) {
+    if(enemies.isEmpty()) {
       // change mode --> world map
       mode = 0;
     }
@@ -80,7 +82,7 @@ public class Game {
     //                        name     hp     atk  dex  vit  mag  spt  lck  mnp  lvl
     Player Cloud = new Player("Cloud", 314,   20,  6,   16,  19,  17,  14,  54,  6  );
     // add Cloud to list of Players
-    Players.add(Cloud);
+    players.add(Cloud);
 
 //  // instance of Player "Barret"
 //  //                         name        hp     atk  dex  vit  mag  spt  lck  mnp  lvl
@@ -105,6 +107,45 @@ public class Game {
 
       // mode: world map
       if(mode == 0) {
+        putString(2, 2, terminal, map.toString());
+
+        terminal.moveCursor(x, y);
+        terminal.putCharacter('C');
+
+        Key key = terminal.readInput();
+
+        if(key != null) {
+          if(key.getKind() == Key.Kind.Escape) {
+  					terminal.exitPrivateMode();
+  					System.exit(0);
+  				}
+
+          // WASD control scheme
+          if(key.getKind() == Key.Kind.ArrowUp) {
+  					terminal.moveCursor(x, y);
+  					terminal.putCharacter(' ');
+  					y -= 1;
+  				}
+
+  				if(key.getKind() == Key.Kind.ArrowDown) {
+  					terminal.moveCursor(x, y);
+  					terminal.putCharacter(' ');
+  					y += 1;
+  				}
+
+          if (key.getKind() == Key.Kind.ArrowLeft) {
+            terminal.moveCursor(x, y);
+            terminal.putCharacter(' ');
+            x += 2;
+          }
+
+          if (key.getKind() == Key.Kind.ArrowRight) {
+            terminal.moveCursor(x, y);
+            terminal.putCharacter(' ');
+            x -= 2;
+          }
+
+        }
 
       // mode: battle
       } else if(mode == 1) {
