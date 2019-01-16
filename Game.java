@@ -100,14 +100,14 @@ public class Game {
     TerminalSize terminalSize = terminal.getTerminalSize();
     terminal.setCursorVisible(false);
 
-    int x = 0;
-    int y = 0;
+    int x = 10;
+    int y = 7;
 
     while(true) {
 
       // mode: world map
       if(mode == 0) {
-        putString(2, 2, terminal, map.toString());
+        putString(0, 0, terminal, map.toString());
 
         terminal.moveCursor(x, y);
         terminal.putCharacter('C');
@@ -122,27 +122,35 @@ public class Game {
 
           // WASD control scheme
           if(key.getKind() == Key.Kind.ArrowUp) {
-  					terminal.moveCursor(x, y);
-  					terminal.putCharacter(' ');
-  					y -= 1;
+            if(map.canMove(x/2, y, 0, 1)) {
+              terminal.moveCursor(x, y);
+    					terminal.putCharacter(' ');
+    					y -= 1;
+            }
   				}
 
   				if(key.getKind() == Key.Kind.ArrowDown) {
-  					terminal.moveCursor(x, y);
-  					terminal.putCharacter(' ');
-  					y += 1;
+            if(map.canMove(x/2, y, 0, -1)) {
+              terminal.moveCursor(x, y);
+    					terminal.putCharacter(' ');
+    					y += 1;
+            }
   				}
 
           if (key.getKind() == Key.Kind.ArrowLeft) {
-            terminal.moveCursor(x, y);
-            terminal.putCharacter(' ');
-            x += 2;
+            if(map.canMove(x/2, y, -1, 0)) {
+              terminal.moveCursor(x, y);
+    					terminal.putCharacter(' ');
+    					x -= 2;
+            }
           }
 
           if (key.getKind() == Key.Kind.ArrowRight) {
-            terminal.moveCursor(x, y);
-            terminal.putCharacter(' ');
-            x -= 2;
+            if(map.canMove(x/2, y, 1, 0)) {
+              terminal.moveCursor(x, y);
+    					terminal.putCharacter(' ');
+    					x += 2;
+            }
           }
 
         }
