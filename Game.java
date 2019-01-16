@@ -103,6 +103,8 @@ public class Game {
     int x = 10;
     int y = 7;
 
+    boolean f = true;
+
     while(true) {
 
       // mode: world map
@@ -160,8 +162,10 @@ public class Game {
 
         }
 
+
       // mode: battle
       } else if(mode == 1) {
+        
 
       }
 
