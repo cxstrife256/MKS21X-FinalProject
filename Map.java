@@ -17,6 +17,9 @@ public class Map {
     room_ID = 0;
 
     // set map (data) according to room_ID
+    resize(Integer.parseInt(map_archive[room_ID][1]), Integer.parseInt(map_archive[room_ID][2]));
+    setMap(map_archive[room_ID][0]);
+    
     resetMap();
 
   }
@@ -52,7 +55,7 @@ public class Map {
         data[i][j] = ' ' ;
       }
     }
-    
+
   }
 
   public void setMap(String layout) {

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 abstract class Squishy {
 
   private int hitpoints;
@@ -56,7 +58,21 @@ abstract class Squishy {
   // basic accessor methods, test purposes
   public int getHitpoints() {
     return hitpoints;
-    
+
+  }
+
+  // what in tarnation
+
+  // get Player name
+  public char getName() {
+    return ' ';
+
+  }
+
+  // select target at random
+  public Squishy selectTarget(ArrayList<Squishy> targets) {
+    return new Enemy(10, 5, 5, 5, 5, 5, 5);
+
   }
 
 }
