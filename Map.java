@@ -63,25 +63,28 @@ public class Map {
 
   }
 
-  public boolean canMove(int x, int y, int xdirec, int ydirec) {
+  public int canMove(int x, int y, int xdirec, int ydirec) {
     char destination = data[y+ydirec][x+xdirec];
 
     // encounter door/stair to next room
     if(destination == '>') {
       room_ID += 1;
       resetMap();
-      return true;
+      return 2;
 
     // encounter door/stair to prev room
     } else if(destination == '<') {
       room_ID -= 1;
       resetMap();
-      return true;
+      return 2;
 
     // encounter normal tile, checking if destination is a legal move
-    } else {
-      return destination == '.';
+    } else if(destination == '.') {
+      return 0;
 
+    // false otherwise
+    } else {
+      return 1;
     }
 
   }
