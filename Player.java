@@ -28,7 +28,7 @@ public class Player extends Squishy {
 
     } else {
       // you don't belong in this world, monster! - richter belmont
-      
+
     }
 
   }
@@ -38,6 +38,11 @@ public class Player extends Squishy {
     damage_taken += damage;
     // do something (who knows) with limit
 
+  }
+
+  public char getName() {
+    return name.charAt(0);
+    
   }
 
 }
