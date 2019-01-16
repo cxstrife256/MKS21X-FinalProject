@@ -78,10 +78,11 @@ public class Game {
   }
 
   // check enemy count, if == 0, end battle, change mode
-  public static void battleEnd() {
+  public static void battleEnd(Terminal terminal) {
     if(enemies.isEmpty()) {
       // change mode --> world map
       mode = 0;
+      terminal.clearScreen();
     }
 
   }
@@ -218,7 +219,7 @@ public class Game {
         }
         wait(1);
 
-        battleEnd();
+        battleEnd(terminal);
 
       }
 
