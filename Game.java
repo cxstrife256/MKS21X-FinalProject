@@ -162,10 +162,42 @@ public class Game {
 
         }
 
+        // initiating first battle (tutorial minus the things that make it a tutorial)
+        if(f && (y <= 4)) {
+          firstBattle();
+          f = false;
+        }
 
       // mode: battle
       } else if(mode == 1) {
-        
+        terminal.clearScreen();
+
+        // loops through list of enemies and places them on the map
+        for(int i=0; i<enemies.size(); i++) {
+          putString(8, 5 + (i * 3), terminal, "MP");
+        }
+
+        for(int i=0; i<players.size(); i++) {
+          putString(30, 5 + (i * 3), terminal, players.get(i).name);
+        }
+
+        /*
+
+
+          MP              C
+
+
+          MP
+
+
+          MP
+
+
+        ---------------------------------
+          > Cloud.attack(Enemies[0])
+
+
+        */
 
       }
 
