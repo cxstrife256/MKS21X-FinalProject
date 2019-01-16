@@ -35,6 +35,7 @@ public class Map {
   }
 
   public void resetMap() {
+    clear();
     resize(Integer.parseInt(map_archive[room_ID][1]), Integer.parseInt(map_archive[room_ID][2]));
     setMap(map_archive[room_ID][0]);
 
@@ -43,6 +44,15 @@ public class Map {
   public void resize(int rows, int cols) {
     data = new char[rows][cols];
 
+  }
+
+  private void clear() {
+    for(int i=0; i<data.length; i++) {
+      for(int j=0; j<data[i].length; j++) {
+        data[i][j] = ' ' ;
+      }
+    }
+    
   }
 
   public void setMap(String layout) {
