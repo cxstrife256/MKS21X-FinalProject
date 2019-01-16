@@ -162,10 +162,38 @@ public class Game {
 
         }
 
+        // initiating first battle (tutorial minus the things that make it a tutorial)
+        if(f && (y <= 4)) {
+          firstBattle();
+          f = false;
+        }
 
       // mode: battle
       } else if(mode == 1) {
-        
+        terminal.clearScreen();
+
+        // loops through list of enemies and places them on the map
+        for(int i=0; i<enemies.size(); i++) {
+          putString(8, 5 + (i * 3), terminal, "MP");
+          putString(8, 6 + (i * 3), terminal, "" + enemies.get(i).getHitpoints());
+        }
+
+        for(int i=0; i<players.size(); i++) {
+          putString(30, 5 + (i * 3), terminal, "" + players.get(i).getName());
+          putString(30, 6 + (i * 3), terminal, "" + players.get(i).getHitpoints());
+        }
+
+        putString(6, 5 + (enemies.size() * 3), terminal, "---------------------------------------");
+
+        Cloud.attack(enemies.get(0), 12);
+        TimeUnit.SECONDS.sleep(1);
+
+        for(int i=0; i<enemies.size(); i++) {
+          enemies.get(i).attack(enemies.get(i).selectTarget(players));
+        }
+        TimeUnit.SECONDS.sleep(1);
+
+        battleEnd();
 
       }
 
