@@ -120,9 +120,13 @@ public class Game {
   					System.exit(0);
   				}
 
-          // WASD control scheme
+          // arrow control scheme
           if(key.getKind() == Key.Kind.ArrowUp) {
-            if(map.canMove(x/2, y, 0, 1)) {
+            if((map.canMove(x/2, y, 0, -1) != 1)) {
+              if((map.canMove(x/2, y, 0, -1) == 2)) {
+                terminal.clearScreen();
+                terminal.flush();
+              }
               terminal.moveCursor(x, y);
     					terminal.putCharacter(' ');
     					y -= 1;
@@ -130,7 +134,11 @@ public class Game {
   				}
 
   				if(key.getKind() == Key.Kind.ArrowDown) {
-            if(map.canMove(x/2, y, 0, -1)) {
+            if((map.canMove(x/2, y, 0, 1) != 1)) {
+              if((map.canMove(x/2, y, 0, 1) == 2)) {
+                terminal.clearScreen();
+                terminal.flush(); // what does this do what the heck I don't know pythonnnnnnnn
+              }
               terminal.moveCursor(x, y);
     					terminal.putCharacter(' ');
     					y += 1;
@@ -138,7 +146,11 @@ public class Game {
   				}
 
           if (key.getKind() == Key.Kind.ArrowLeft) {
-            if(map.canMove(x/2, y, -1, 0)) {
+            if((map.canMove(x/2, y, -1, 0) != 1)) {
+              if((map.canMove(x/2, y, -1, 0) == 2)) {
+                terminal.clearScreen();
+                terminal.flush();
+              }
               terminal.moveCursor(x, y);
     					terminal.putCharacter(' ');
     					x -= 2;
@@ -146,7 +158,11 @@ public class Game {
           }
 
           if (key.getKind() == Key.Kind.ArrowRight) {
-            if(map.canMove(x/2, y, 1, 0)) {
+            if((map.canMove(x/2, y, 1, 0) !=1)) {
+              if((map.canMove(x/2, y, 1, 0) == 2)) {
+                terminal.clearScreen();
+                terminal.flush();
+              }
               terminal.moveCursor(x, y);
     					terminal.putCharacter(' ');
     					x += 2;
