@@ -26,7 +26,6 @@ public class Game {
   private static ArrayList<Squishy> players;
   private static ArrayList<Squishy> enemies;
 
-
   public static void putString(int row, int col, Terminal t, String str){
 		t.moveCursor(row, col);
 		for(int i=0; i<str.length(); i++) {
@@ -63,11 +62,36 @@ public class Game {
 
   }
 
+  public static void remove() {
+    for(int i=0; i<enemies.size(); i++) {
+      if(enemies.get(i).getHitpoints() <= 0) {
+        enemies.remove(enemies.get(i));
+      }
+    }
+
+    for(int i=0; i<players.size(); i++) {
+      if(players.get(i).getHitpoints() <= 0) {
+        players.remove(players.get(i));
+      }
+    }
+
+  }
+
   // check enemy count, if == 0, end battle, change mode
-  public static void battleEnd() {
+  public static void battleEnd(Terminal terminal) {
     if(enemies.isEmpty()) {
       // change mode --> world map
       mode = 0;
+      terminal.clearScreen();
+    }
+
+  }
+
+  public static void wait(int sec) {
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch(InterruptedException e) {
+      e.printStackTrace();
     }
 
   }
@@ -186,14 +210,16 @@ public class Game {
         putString(6, 5 + (enemies.size() * 3), terminal, "---------------------------------------");
 
         Cloud.attack(enemies.get(0), 12);
-        TimeUnit.SECONDS.sleep(1);
+        remove();
+        wait(1);
 
         for(int i=0; i<enemies.size(); i++) {
-          enemies.get(i).attack(enemies.get(i).selectTarget(players));
+          enemies.get(i).attack(enemies.get(i).selectTarget(players), 5, 10);
+          remove();
         }
-        TimeUnit.SECONDS.sleep(1);
+        wait(1);
 
-        battleEnd();
+        battleEnd(terminal);
 
       }
 

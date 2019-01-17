@@ -42,7 +42,7 @@ public class Player extends Squishy {
 
   public char getName() {
     return name.charAt(0);
-    
+
   }
 
 }
