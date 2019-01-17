@@ -26,7 +26,7 @@ public class Game {
   private static ArrayList<Squishy> players;
   private static ArrayList<Squishy> enemies;
 
-  public static void putString(int row, int col, Terminal t, String str){
+  public static void putString(int row, int col, Terminal t, String str) {
 		t.moveCursor(row, col);
 		for(int i=0; i<str.length(); i++) {
 			t.putCharacter(str.charAt(i));
