@@ -34,7 +34,7 @@ public class Game {
 
 	}
 
-  // spawn enemies
+  // spawn enemies randomly
   public static void enemySetup() {
     int enemycount = ((int)(Math.random() * 10000) % 2) + 2;
     for(int i=0; i<enemycount; i++) {
@@ -44,15 +44,15 @@ public class Game {
       }
 
       if(enemy_type == 1) {
-        enemies.add(new Grunt(40, 12, 58, 10, 2, 2, 8));
+        enemies.add(new Grunt(40, 12, 58, 10, 2, 2, 8));        // adds a Grunt
       }
 
       if(enemy_type == 2) {
-        enemies.add(new GuardDog(42, 8, 64, 4, 2, 2, 6));
+        enemies.add(new GuardDog(42, 8, 64, 4, 2, 2, 6));      // adds a GuardDog
       }
 
       if(enemy_type == 3){
-        enemies.add(new Sweeper(140, 18, 20, 48, 0, 4, 1));
+        enemies.add(new Sweeper(140, 18, 20, 48, 0, 4, 1));    //  adds a Sweeper
       }
 
     }
@@ -97,6 +97,8 @@ public class Game {
 
   public static void battleStart(Terminal terminal) {
     mode = 1;
+    terminal.clearScreen();
+    enemySetup();
 
   }
   // check enemy count, if == 0, end battle, change mode
@@ -212,6 +214,13 @@ public class Game {
         if(f && (y <= 4) && map.getId() == 0) {
           firstBattle();
           f = false;
+        }
+
+        if(map.getId() != 0){
+          if( ((int)(Math.random() * 10000) % 100) == 0){
+            battleStart(terminal);
+          }
+
         }
 
       // mode: battle
