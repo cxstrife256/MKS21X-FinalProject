@@ -19,7 +19,7 @@ public class Map {
     // set map (data) according to room_ID
     resize(Integer.parseInt(map_archive[room_ID][1]), Integer.parseInt(map_archive[room_ID][2]));
     setMap(map_archive[room_ID][0]);
-    
+
     resetMap();
 
   }
@@ -42,6 +42,10 @@ public class Map {
     resize(Integer.parseInt(map_archive[room_ID][1]), Integer.parseInt(map_archive[room_ID][2]));
     setMap(map_archive[room_ID][0]);
 
+  }
+
+  public int getId() {
+    return room_ID;
   }
 
   public void resize(int rows, int cols) {
