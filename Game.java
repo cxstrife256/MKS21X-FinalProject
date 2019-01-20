@@ -32,11 +32,27 @@ public class Game {
 
 	}
 
-  // spawn enemies
+  // spawn enemies randomly
   public static void enemySetup() {
     int enemycount = ((int)(Math.random() * 10000) % 2) + 2;
     for(int i=0; i<enemycount; i++) {
-      enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4)); // for now, default enemy is MilitaryPolice
+      int enemy_type = (int)Math.random() * 10000 % 4;
+      if(enemy_type == 0) {
+        enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4)); // adds a MilitaryPolice
+      }
+
+      if(enemy_type == 1) {
+        enemies.add(new Grunt(40, 12, 58, 10, 2, 2, 8));        // adds a Grunt
+      }
+
+      if(enemy_type == 2) {
+        enemies.add(new GuardDog(42, 8, 64, 4, 2, 2, 6));      // adds a GuardDog
+      }
+
+      if(enemy_type == 3){
+        enemies.add(new Sweeper(140, 18, 20, 48, 0, 4, 1));    //  adds a Sweeper
+      }
+
     }
 
     // change mode --> battle
@@ -75,6 +91,24 @@ public class Game {
 
   }
 
+  // does a check to see if the ecounter should occur
+  public static void encounter(Map map, Terminal terminal) {
+    if(map.getId() != 0){
+      if( ((int)(Math.random() * 10000) % 100) == 0){
+        battleStart(terminal);
+      }
+
+    }
+  }
+
+  // starts a random ecounter
+  public static void battleStart(Terminal terminal) {
+    mode = 1;
+    terminal.clearScreen();
+
+    enemySetup();
+
+  }
   // check enemy count, if == 0, end battle, change mode
   public static void battleEnd(Terminal terminal) {
     if(enemies.isEmpty()) {
@@ -152,6 +186,7 @@ public class Game {
               terminal.moveCursor(x, y);
     					terminal.putCharacter(' ');
     					y -= 1;
+              encounter(map, terminal);
             }
   				}
 
@@ -161,6 +196,7 @@ public class Game {
               terminal.moveCursor(x, y);
     					terminal.putCharacter(' ');
     					y += 1;
+              encounter(map, terminal);
             }
   				}
 
@@ -170,6 +206,7 @@ public class Game {
               terminal.moveCursor(x, y);
     					terminal.putCharacter(' ');
     					x -= 2;
+              encounter(map, terminal);
             }
           }
 
@@ -179,16 +216,18 @@ public class Game {
               terminal.moveCursor(x, y);
     					terminal.putCharacter(' ');
     					x += 2;
+              encounter(map, terminal);
             }
           }
 
         }
 
         // initiating first battle (tutorial minus the things that make it a tutorial)
-        if(f && (y <= 4)) {
+        if(f && (y <= 4) && map.getId() == 0) {
           firstBattle();
           f = false;
         }
+
 
       // mode: battle
       } else if(mode == 1) {
