@@ -93,11 +93,21 @@ public class Game {
 
   }
 
-  // starts a random / set encounter
+  // does a check to see if the ecounter should occur
+  public static void encounter(Map map, Terminal terminal) {
+    if(map.getId() != 0){
+      if( ((int)(Math.random() * 10000) % 100) == 0){
+        battleStart(terminal);
+      }
 
+    }
+  }
+
+  // starts a random ecounter
   public static void battleStart(Terminal terminal) {
     mode = 1;
     terminal.clearScreen();
+
     enemySetup();
 
   }
@@ -178,6 +188,7 @@ public class Game {
               terminal.moveCursor(x, y);
     					terminal.putCharacter(' ');
     					y -= 1;
+              encounter(map, terminal);
             }
   				}
 
@@ -187,6 +198,7 @@ public class Game {
               terminal.moveCursor(x, y);
     					terminal.putCharacter(' ');
     					y += 1;
+              encounter(map, terminal);
             }
   				}
 
@@ -196,6 +208,7 @@ public class Game {
               terminal.moveCursor(x, y);
     					terminal.putCharacter(' ');
     					x -= 2;
+              encounter(map, terminal);
             }
           }
 
@@ -205,6 +218,7 @@ public class Game {
               terminal.moveCursor(x, y);
     					terminal.putCharacter(' ');
     					x += 2;
+              encounter(map, terminal);
             }
           }
 
@@ -216,12 +230,6 @@ public class Game {
           f = false;
         }
 
-        if(map.getId() != 0){
-          if( ((int)(Math.random() * 10000) % 100) == 0){
-            battleStart(terminal);
-          }
-
-        }
 
       // mode: battle
       } else if(mode == 1) {
