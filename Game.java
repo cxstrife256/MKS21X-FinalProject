@@ -11,8 +11,6 @@ import com.googlecode.lanterna.input.InputProvider;
 import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.input.KeyMappingProfile;
 
-import java.util.concurrent.TimeUnit;   // might use for delayed tasks
-
 import java.util.ArrayList;
 
 public class Game {
@@ -89,7 +87,7 @@ public class Game {
 
   public static void wait(int sec) {
     try {
-      TimeUnit.SECONDS.sleep(1);
+      TimeUnit.SECONDS.sleep(sec);
     } catch(InterruptedException e) {
       e.printStackTrace();
     }
