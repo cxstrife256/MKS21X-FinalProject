@@ -250,14 +250,16 @@ public class Game {
         if(currentTime > lastTime + 1000 + (enemies.size() * 1000)) {
           Cloud.attack(enemies.get(0), 12);
           remove();
-          lastTime = currentTime;
+          //lastTime = currentTime;
+          Thread.sleep(1000);
         }
 
         for(int i=0; i<enemies.size(); i++) {
-          if(currentTime > lastTime + 1000 + (i * 1000)) {
+          //if(currentTime > lastTime + 1000 + (i * 1000)) {
             enemies.get(i).attack(enemies.get(i).selectTarget(players), 5, 10);
             remove();
-          }
+            Thread.sleep(1000);
+          //}
         }
 
         battleEnd(terminal);
