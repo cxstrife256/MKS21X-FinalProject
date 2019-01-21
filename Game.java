@@ -13,6 +13,8 @@ import com.googlecode.lanterna.input.KeyMappingProfile;
 
 import java.util.ArrayList;
 
+import java.util.concurrent.TimeUnit;
+
 public class Game {
 
   // display
@@ -31,6 +33,15 @@ public class Game {
 		}
 
 	}
+
+  public static void wait(int sec) {
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch(InterruptedException e) {
+      e.printStackTrace();
+    }
+
+  }
 
   // spawn enemies randomly
   public static void enemySetup() {
@@ -134,13 +145,14 @@ public class Game {
     TerminalSize terminalSize = terminal.getTerminalSize();
     terminal.setCursorVisible(false);
 
-    int x = 10;
-    int y = 7;
+    int x = 12;
+    int y = 12;
 
     // first battle
     boolean f = true;
 
     while(true) {
+      //terminal.clearScreen();
 
       // mode: world map
       if(mode == 0) {
@@ -166,6 +178,7 @@ public class Game {
     					terminal.putCharacter(' ');
     					y -= 1;
               encounter(map, terminal);
+              terminal.clearScreen();
             }
   				}
 
@@ -176,6 +189,7 @@ public class Game {
     					terminal.putCharacter(' ');
     					y += 1;
               encounter(map, terminal);
+              terminal.clearScreen();
             }
   				}
 
@@ -186,6 +200,7 @@ public class Game {
     					terminal.putCharacter(' ');
     					x -= 2;
               encounter(map, terminal);
+              terminal.clearScreen();
             }
           }
 
@@ -196,13 +211,14 @@ public class Game {
     					terminal.putCharacter(' ');
     					x += 2;
               encounter(map, terminal);
+              terminal.clearScreen();
             }
           }
 
         }
 
         // initiating first battle (tutorial minus the things that make it a tutorial)
-        if(f && (y <= 4) && map.getId() == 0) {
+        if(f && (y <= 6)) {
           // spawn two MilitaryPolice for the first battle
           enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4));
           enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4));
@@ -214,17 +230,16 @@ public class Game {
           mode = 1;
         }
 
-
       // mode: battle
       } else if(mode == 1) {
-
+        terminal.clearScreen();
         // loops through list of enemies and places them on the map
         for(int i=0; i<enemies.size(); i++) {
           putString(8, 5 + (i * 3), terminal, enemies.get(i).getName());
           putString(8, 6 + (i * 3), terminal, "" + enemies.get(i).getHitpoints());
         }
 
-        // loops throught list of players and places them on the map
+        // loops through list of players and places them on the map
         for(int i=0; i<players.size(); i++) {
           putString(30, 5 + (i * 3), terminal, players.get(i).getName());
           putString(30, 6 + (i * 3), terminal, "" + players.get(i).getHitpoints());
@@ -232,13 +247,32 @@ public class Game {
 
         putString(6, 5 + (enemies.size() * 3), terminal, "---------------------------------------");
 
-        Cloud.attack(enemies.get(0), 22);
+        Cloud.attack(enemies.get(0), 12);
         remove();
+        wait(1);
+        /*
+            for loop to loop through players to give them the ability to attack
+
+            allow players to choose which enemy to attack / which attack to use ??? post-final?
+
+            have a cursor that points at the enemy that is selected, and based on which enemy it is pointed at, the player attacks that enemy
+
+            give the player the ability to move the cursor up and down using the arrow keys,
+
+            maybe have key get enter be the thing that chooses
+
+            mode 2
+
+
+
+
+        */
 
         for(int i=0; i<enemies.size(); i++) {
           enemies.get(i).attack(enemies.get(i).selectTarget(players), 5, 10);
           remove();
         }
+        wait(1);
 
         battleEnd(terminal);
 
