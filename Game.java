@@ -75,14 +75,6 @@ public class Game {
 
   }
 
-  public static void wait(int millisec) {
-    try {
-      Thread.sleep(millisec);
-    } catch(InterruptedException e) {
-      e.printStackTrace();
-    }
-  }
-
   // does a check to see if the encounter should occur
   public static void encounter(Map map, Terminal terminal) {
     if(map.getID() != 0) {  // enemies do not spawn in the first room
@@ -151,8 +143,12 @@ public class Game {
     // first battle
     boolean f = true;
 
+    boolean player_turn = true;
+
     long currentTime, lastTime;
     lastTime = 0L;
+
+    int i = 0;
 
     while(true) {
       currentTime = System.currentTimeMillis();
@@ -255,19 +251,27 @@ public class Game {
           putString(27, 7 + (enemies.size() * 3) + i, terminal, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100");
         }
 
-        if(currentTime > lastTime + 1000 + (enemies.size() * 1000)) {
-          Cloud.attack(enemies.get(0), 12);
-          remove();
-          //lastTime = currentTime;
-          wait(1000);
+        if(player_turn) {
+          if(currentTime > lastTime + 1000) {
+            Cloud.attack(enemies.get(0), 12);
+            remove();
+            player_turn = false;  // player has attacked, start enemy turn
+            lastTime = currentTime;
+          }
+        } else {
+          while(i<enemies.size()) {
+            if(currentTime > lastTime + 1000) {
+              enemies.get(i).attack(enemies.get(i).selectTarget(players), 5, 10);
+              i++;
+              remove();
+              lastTime = currentTime;
+            }
+          }
         }
 
-        for(int i=0; i<enemies.size(); i++) {
-          //if(currentTime > lastTime + 1000 + (i * 1000)) {
-            enemies.get(i).attack(enemies.get(i).selectTarget(players), 5, 10);
-            remove();
-            wait(1000); 
-          //}
+        if(i == enemies.size() - 1) {   // all enemies have attacked, start player turn
+          player_turn = true;
+          i = 0;
         }
 
         battleEnd(terminal);
