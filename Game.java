@@ -24,7 +24,7 @@ public class Game {
   private static ArrayList<Squishy> players;
   private static ArrayList<Squishy> enemies;
 
-  public static void putString(int row, int col, Terminal t, String str) {
+  public static void putString(int row, int col, Terminal t, String str) { // replace with screen
 		t.moveCursor(row, col);
 		for(int i=0; i<str.length(); i++) {
 			t.putCharacter(str.charAt(i));
@@ -34,45 +34,29 @@ public class Game {
 
   // spawn enemies randomly
   public static void enemySetup() {
+    // enemycount [2, 3]
     int enemycount = ((int)(Math.random() * 10000) % 2) + 2;
+    int enemy_type = 0;
     for(int i=0; i<enemycount; i++) {
-      int enemy_type = (int)Math.random() * 10000 % 4;
-      if(enemy_type == 0) {
-        enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4)); // adds a MilitaryPolice
-      }
+      enemy_type = (int)(Math.random() * 10000) % 10;
 
-      if(enemy_type == 1) {
-        enemies.add(new Grunt(40, 12, 58, 10, 2, 2, 8));        // adds a Grunt
-      }
+      // MilitaryPolice
+      // 3 / 10
+      if(enemy_type < 3) { enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4)); }
 
-      if(enemy_type == 2) {
-        enemies.add(new GuardDog(42, 8, 64, 4, 2, 2, 6));      // adds a GuardDog
-      }
+      // Grunt
+      // 3 / 10
+      else if(enemy_type < 6) { enemies.add(new Grunt(40, 12, 58, 10, 2, 2, 8)); }
 
-      if(enemy_type == 3){
-        enemies.add(new Sweeper(140, 18, 20, 48, 0, 4, 1));    //  adds a Sweeper
-      }
+      // GuardDog
+      // 3 / 10
+      else if(enemy_type < 9) { enemies.add(new GuardDog(42, 8, 64, 4, 2, 2, 6)); }
+
+      // Sweeper
+      // 1 / 10
+      else { enemies.add(new Sweeper(140, 18, 20, 48, 0, 4, 1)); }
 
     }
-
-    // change mode --> battle
-    mode = 1;
-
-  }
-
-  // hardcode setup for first battle
-  public static void firstBattle() {
-    enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4));
-    enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4));
-
-    // change mode --> battle
-    mode = 1;
-
-  }
-
-  public static void bossBattle() {
-    // hahahahahahahahahahahahahhahahaha
-    // aahaHahaHAahahahaAHAAHahahahaaaah
 
   }
 
@@ -91,39 +75,33 @@ public class Game {
 
   }
 
-  // does a check to see if the ecounter should occur
+  // does a check to see if the encounter should occur
   public static void encounter(Map map, Terminal terminal) {
-    if(map.getId() != 0){
-      if( ((int)(Math.random() * 10000) % 100) == 0){
+    if(map.getID() != 0) {  // enemies do not spawn in the first room
+      if(((int)(Math.random() * 10000) % 100) < 4) {  // 4% chance upon step to get it spicy
         battleStart(terminal);
       }
 
     }
   }
 
-  // starts a random ecounter
+  // starts a random encounter
   public static void battleStart(Terminal terminal) {
+    // change mode --> battle
     mode = 1;
-    terminal.clearScreen();
 
+    terminal.clearScreen();
     enemySetup();
 
   }
+
   // check enemy count, if == 0, end battle, change mode
   public static void battleEnd(Terminal terminal) {
     if(enemies.isEmpty()) {
       // change mode --> world map
       mode = 0;
+
       terminal.clearScreen();
-    }
-
-  }
-
-  public static void wait(int sec) {
-    try {
-      TimeUnit.SECONDS.sleep(sec);
-    } catch(InterruptedException e) {
-      e.printStackTrace();
     }
 
   }
@@ -159,6 +137,7 @@ public class Game {
     int x = 10;
     int y = 7;
 
+    // first battle
     boolean f = true;
 
     while(true) {
@@ -224,37 +203,42 @@ public class Game {
 
         // initiating first battle (tutorial minus the things that make it a tutorial)
         if(f && (y <= 4) && map.getId() == 0) {
-          firstBattle();
+          // spawn two MilitaryPolice for the first battle
+          enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4));
+          enemies.add(new MilitaryPolice(30, 6, 50, 4, 0, 0, 4));
+
+          // never touch first battle ever again please no
           f = false;
+
+          // change mode --> battle
+          mode = 1;
         }
 
 
       // mode: battle
       } else if(mode == 1) {
-        terminal.clearScreen();
 
         // loops through list of enemies and places them on the map
         for(int i=0; i<enemies.size(); i++) {
-          putString(8, 5 + (i * 3), terminal, "MP");
+          putString(8, 5 + (i * 3), terminal, enemies.get(i).getName());
           putString(8, 6 + (i * 3), terminal, "" + enemies.get(i).getHitpoints());
         }
 
+        // loops throught list of players and places them on the map
         for(int i=0; i<players.size(); i++) {
-          putString(30, 5 + (i * 3), terminal, "" + players.get(i).getName());
+          putString(30, 5 + (i * 3), terminal, players.get(i).getName());
           putString(30, 6 + (i * 3), terminal, "" + players.get(i).getHitpoints());
         }
 
         putString(6, 5 + (enemies.size() * 3), terminal, "---------------------------------------");
 
-        Cloud.attack(enemies.get(0), 12);
+        Cloud.attack(enemies.get(0), 22);
         remove();
-        wait(1);
 
         for(int i=0; i<enemies.size(); i++) {
           enemies.get(i).attack(enemies.get(i).selectTarget(players), 5, 10);
           remove();
         }
-        wait(1);
 
         battleEnd(terminal);
 

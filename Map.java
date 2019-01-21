@@ -5,9 +5,9 @@ public class Map {
   private int room_ID;              // this is how we keep track of which room we are in
 
   public Map() {
-    //                      room setMap() string                                                              rows  cols
+    //                      room setMap() string                                                                                                      rows  cols
     String[][] maps = {
-                          {"|-----|,|.....|,>.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|-----|", "10", "7"},
+                          {"|-------|,|.......|,>.......|,|.......|,|.......|,|.......|,|.......|,|.......|,|.......|,|.......|,|.......|,|-------|", "12", "9"},
                           {"|----|,|....|,|....|,|....<,|----|"                                             , "5" , "6"}
 
                         };
