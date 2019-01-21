@@ -143,9 +143,8 @@ public class Game {
     // first battle
     boolean f = true;
 
-    long currentTime, lastTime_Player, lastTime_Enemy;
-    lastTime_Player = 0L;
-    lastTime_Enemy = 0L;
+    long currentTime, lastTime;
+    lastTime = 0L;
 
     while(true) {
       currentTime = System.currentTimeMillis();
@@ -248,17 +247,16 @@ public class Game {
           putString(27, 7 + (enemies.size() * 3) + i, terminal, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100");
         }
 
-        if(currentTime > lastTime_Player + 1000) {
+        if(currentTime > lastTime + 1000 + (enemies.size() * 1000)) {
           Cloud.attack(enemies.get(0), 12);
           remove();
-          lastTime_Player = currentTime;
+          lastTime = currentTime;
         }
 
         for(int i=0; i<enemies.size(); i++) {
-          if(currentTime > lastTime_Enemy + 1000) {
+          if(currentTime > lastTime + 1000 + (i * 1000)) {
             enemies.get(i).attack(enemies.get(i).selectTarget(players), 5, 10);
             remove();
-            lastTime_Enemy = currentTime; 
           }
         }
 
