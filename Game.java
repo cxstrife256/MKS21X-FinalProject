@@ -115,7 +115,6 @@ public class Game {
     players = new ArrayList<Squishy>();
     enemies = new ArrayList<Squishy>();
 
-
     // instance of Player "Cloud"
     //                        name     hp     atk  dex  vit  mag  spt  lck  mnp  lvl
     Player Cloud = new Player("Cloud", 314,   20,  6,   16,  19,  17,  14,  54,  6  );
@@ -144,8 +143,8 @@ public class Game {
     // first battle
     boolean f = true;
 
-    int currentTime, lastTime;
-    lastTime = 0;
+    long currentTime, lastTime;
+    lastTime = 0L;
 
     while(true) {
       currentTime = System.currentTimeMillis();
