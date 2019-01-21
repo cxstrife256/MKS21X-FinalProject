@@ -248,15 +248,15 @@ public class Game {
         putString(6, 5 + (enemies.size() * 3), terminal, "---------------------------------------");
 
         for(int i=0; i<players.size(); i++) {
-          putString(8, 7 + i, terminal, players.get(i).getName());
-          putString(27, 7 + i, terminal, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100");
+          putString(8, 7 + (enemies.size() * 3) + i, terminal, players.get(i).getName());
+          putString(27, 7 + (enemies.size() * 3) + i, terminal, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100");
         }
 
         Cloud.attack(enemies.get(0), 12);
         remove();
         wait(1);
         /*
-        for(int i = 0; i < players.length; i++) { 
+        for(int i = 0; i < players.length; i++) {
         Squishy target = getTarget();
           players[i].attack(target, power)
           remove();
