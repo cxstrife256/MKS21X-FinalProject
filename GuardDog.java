@@ -18,4 +18,9 @@ public class GuardDog extends Enemy{
 
   }
 
+  public String getName() {
+    return "GD";
+
+  }
+
 }

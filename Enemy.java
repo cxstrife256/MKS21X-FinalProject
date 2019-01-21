@@ -17,4 +17,8 @@ public class Enemy extends Squishy {
 
   }
 
+  public String getName(){
+    
+  }
+
 }
