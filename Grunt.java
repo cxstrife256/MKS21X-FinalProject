@@ -13,8 +13,13 @@ public class Grunt extends Enemy {
     } else {
       // Beam Gun
       super.attack(target, 10);
-      
+
     }
+
+  }
+
+  public String getName() {
+    return "G";
 
   }
 

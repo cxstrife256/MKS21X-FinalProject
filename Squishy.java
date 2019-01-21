@@ -64,8 +64,8 @@ abstract class Squishy {
   // what in tarnation
 
   // get Player name
-  public char getName() {
-    return ' ';
+  public String getName() {
+    return " ";
 
   }
 

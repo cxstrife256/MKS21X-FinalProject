@@ -24,4 +24,9 @@ public class Sweeper extends Enemy {
 
   }
 
+  public String getName() {
+    return "S";
+
+  }
+
 }
