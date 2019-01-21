@@ -75,6 +75,14 @@ public class Game {
 
   }
 
+  public static void wait(int millisec) {
+    try {
+      Thread.sleep(millisec);
+    } catch(InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+
   // does a check to see if the encounter should occur
   public static void encounter(Map map, Terminal terminal) {
     if(map.getID() != 0) {  // enemies do not spawn in the first room
@@ -251,14 +259,14 @@ public class Game {
           Cloud.attack(enemies.get(0), 12);
           remove();
           //lastTime = currentTime;
-          Thread.sleep(1000);
+          wait(1000);
         }
 
         for(int i=0; i<enemies.size(); i++) {
           //if(currentTime > lastTime + 1000 + (i * 1000)) {
             enemies.get(i).attack(enemies.get(i).selectTarget(players), 5, 10);
             remove();
-            Thread.sleep(1000);
+            wait(1000); 
           //}
         }
 
