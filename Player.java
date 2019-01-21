@@ -49,7 +49,11 @@ public class Player extends Squishy {
 
   public int getMaxHitpoints() {
     return maxHitpoints;
-    
+
+  }
+
+  public int getManaPoints()  {
+    return manapoints;
   }
 
 }
