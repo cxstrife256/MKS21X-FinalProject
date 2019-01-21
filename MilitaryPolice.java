@@ -18,4 +18,10 @@ public class MilitaryPolice extends Enemy {
 
   }
 
+  public String getName() {
+    return "MP";
+
+  }
+
+
 }
