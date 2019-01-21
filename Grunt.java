@@ -18,8 +18,8 @@ public class Grunt extends Enemy {
 
   }
 
-  public char getName() {
-    return 'G';
+  public String getName() {
+    return "G";
 
   }
 
