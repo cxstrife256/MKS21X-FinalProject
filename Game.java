@@ -241,27 +241,69 @@ public class Game {
 
         // loops through list of players and places them on the map
         for(int i=0; i<players.size(); i++) {
-          putString(30, 5 + (i * 3), terminal, players.get(i).getName());
+          putString(30, 5 + (i * 3), terminal, "" + players.get(i).getName().charAt(0));
           putString(30, 6 + (i * 3), terminal, "" + players.get(i).getHitpoints());
         }
 
         putString(6, 5 + (enemies.size() * 3), terminal, "---------------------------------------");
 
+        for(int i=0; i<players.size(); i++) {
+          putString(8, 7 + i, terminal, players.get(i).getName());
+          putString(27, 7 + i, terminal, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100");
+        }
+
         Cloud.attack(enemies.get(0), 12);
         remove();
         wait(1);
         /*
-            for loop to loop through players to give them the ability to attack
+        for(int i = 0; i < players.length; i++) { 
+        Squishy target = getTarget();
+          players[i].attack(target, power)
+          remove();
+        }
 
-            allow players to choose which enemy to attack / which attack to use ??? post-final?
+        MP   <                C
+        16                    296
 
-            have a cursor that points at the enemy that is selected, and based on which enemy it is pointed at, the player attacks that enemy
 
-            give the player the ability to move the cursor up and down using the arrow keys,
+        MP   <
+        30
 
-            maybe have key get enter be the thing that chooses
+        ---------------------------------------
+        for(int i=0; i<players.size(); i++) {
+          putString(8, 7 + i, terminal, players[i].getName());
+          putString(27, 7 + i, "HP " + players[i].getHitpoints() " / " + players.getMaxHitpoints + "    MP " + player.getManaPoints() + "    LIMIT " + players[i].getDamage_taken() + " / 100");
+        }
+        Cloud                   HP 350 / 350    MP 47    LIMIT 0 / 100
+        Barret                  HP 350 / 350    MP 37    LIMIT 0 / 100
 
-            mode 2
+      public static Squishy getTarget() {
+      allows player to select a target
+      a menu on the bottom screen below the -----------------------
+      boolean selection = true
+      while(selection) {
+      terminal.clearScreen()
+      int pos = 0;
+      for( int i = 0; i < enemies.size(); i++ ) {
+        pos = 8 + i + (enemies.size() * 3
+        putString(6, pos, terminal, enemies.getName());
+      }
+      have the same arrow moving up and down methods and other one to get ENTER
+
+      have the cursor move acording the name position,
+      when moving up, check to see if y cord of the cursor is at 8 + (enemies.size() * 3), if not than move up can do stuff
+      when moving down, check to see if the y cord of the cursors is at pos , if not then move down can do stuff
+
+      when enter is press, the follow math thing is done
+
+      int enemythin = ( y - 8 - enemies.size() * 3)
+
+      return enemies[enemythin];
+    }
+
+
+
+    }
 
 
 
