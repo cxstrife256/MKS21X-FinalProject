@@ -13,8 +13,6 @@ import com.googlecode.lanterna.input.KeyMappingProfile;
 
 import java.util.ArrayList;
 
-import java.util.concurrent.TimeUnit;
-
 public class Game {
 
   // display
@@ -33,15 +31,6 @@ public class Game {
 		}
 
 	}
-
-  public static void wait(int sec) {
-    try {
-      TimeUnit.SECONDS.sleep(1);
-    } catch(InterruptedException e) {
-      e.printStackTrace();
-    }
-
-  }
 
   // spawn enemies randomly
   public static void enemySetup() {
@@ -96,6 +85,9 @@ public class Game {
     }
   }
 
+  // select Enemy target
+
+
   // starts a random encounter
   public static void battleStart(Terminal terminal) {
     // change mode --> battle
@@ -122,6 +114,10 @@ public class Game {
     mode = 0;
     players = new ArrayList<Squishy>();
     enemies = new ArrayList<Squishy>();
+
+    long lastTime =  System.currentTimeMillis();
+    long currentTime = lastTime;
+    long timer = 0;
 
     // instance of Player "Cloud"
     //                        name     hp     atk  dex  vit  mag  spt  lck  mnp  lvl
@@ -151,8 +147,11 @@ public class Game {
     // first battle
     boolean f = true;
 
+    int currentTime, lastTime;
+    lastTime = 0;
+
     while(true) {
-      //terminal.clearScreen();
+      currentTime = System.currentTimeMillis();
 
       // mode: world map
       if(mode == 0) {
@@ -245,7 +244,7 @@ public class Game {
           putString(30, 6 + (i * 3), terminal, "" + players.get(i).getHitpoints());
         }
 
-        putString(6, 5 + (enemies.size() * 3), terminal, "---------------------------------------");
+        putString(6, 5 + (enemies.size() * 3), terminal, "------------------------------------------------------");
 
         for(int i=0; i<players.size(); i++) {
           putString(8, 7 + (enemies.size() * 3) + i, terminal, players.get(i).getName());
@@ -254,67 +253,14 @@ public class Game {
 
         Cloud.attack(enemies.get(0), 12);
         remove();
-        wait(1);
-        /*
-        for(int i = 0; i < players.length; i++) {
-        Squishy target = getTarget();
-          players[i].attack(target, power)
-          remove();
-        }
-
-        MP   <                C
-        16                    296
-
-
-        MP   <
-        30
-
-        ---------------------------------------
-        for(int i=0; i<players.size(); i++) {
-          putString(8, 7 + i, terminal, players[i].getName());
-          putString(27, 7 + i, "HP " + players[i].getHitpoints() " / " + players.getMaxHitpoints + "    MP " + player.getManaPoints() + "    LIMIT " + players[i].getDamage_taken() + " / 100");
-        }
-        Cloud                   HP 350 / 350    MP 47    LIMIT 0 / 100
-        Barret                  HP 350 / 350    MP 37    LIMIT 0 / 100
-
-      public static Squishy getTarget() {
-      allows player to select a target
-      a menu on the bottom screen below the -----------------------
-      boolean selection = true
-      while(selection) {
-      terminal.clearScreen()
-      int pos = 0;
-      for( int i = 0; i < enemies.size(); i++ ) {
-        pos = 8 + i + (enemies.size() * 3
-        putString(6, pos, terminal, enemies.getName());
-      }
-      have the same arrow moving up and down methods and other one to get ENTER
-
-      have the cursor move acording the name position,
-      when moving up, check to see if y cord of the cursor is at 8 + (enemies.size() * 3), if not than move up can do stuff
-      when moving down, check to see if the y cord of the cursors is at pos , if not then move down can do stuff
-
-      when enter is press, the follow math thing is done
-
-      int enemythin = ( y - 8 - enemies.size() * 3)
-
-      return enemies[enemythin];
-    }
-
-
-
-    }
-
-
-
-
-        */
 
         for(int i=0; i<enemies.size(); i++) {
-          enemies.get(i).attack(enemies.get(i).selectTarget(players), 5, 10);
-          remove();
+          if(currentTime > lastTime + 1000) {
+            enemies.get(i).attack(enemies.get(i).selectTarget(players), 5, 10);
+            remove();
+            lastTime = currentTime; 
+          }
         }
-        wait(1);
 
         battleEnd(terminal);
 
