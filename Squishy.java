@@ -75,4 +75,19 @@ abstract class Squishy {
 
   }
 
+
+  public int getMaxHitpoints() {
+    return 0;
+
+  }
+
+  public int getManaPoints()  {
+    return 0;
+  }
+
+  public int getDamage_taken() {
+    return 0;
+
+  }
+
 }
