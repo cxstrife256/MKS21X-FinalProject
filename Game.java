@@ -148,7 +148,7 @@ public class Game {
     long currentTime, lastTime;
     lastTime = 0L;
 
-    int i = 0;
+    int k = 0;
 
     while(true) {
       currentTime = System.currentTimeMillis();
@@ -259,19 +259,19 @@ public class Game {
             lastTime = currentTime;
           }
         } else {
-          while(i<enemies.size()) {
+          while(k<enemies.size()) {
             if(currentTime > lastTime + 1000) {
               enemies.get(i).attack(enemies.get(i).selectTarget(players), 5, 10);
-              i++;
+              k++;
               remove();
               lastTime = currentTime;
             }
           }
         }
 
-        if(i == enemies.size() - 1) {   // all enemies have attacked, start player turn
+        if(k == enemies.size() - 1) {   // all enemies have attacked, start player turn
           player_turn = true;
-          i = 0;
+          k = 0;
         }
 
         battleEnd(terminal);
