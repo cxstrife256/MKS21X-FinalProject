@@ -44,7 +44,7 @@ public class Map {
 
   }
 
-  public int getId() {
+  public int getID() {
     return room_ID;
   }
 
