@@ -56,4 +56,8 @@ public class Player extends Squishy {
     return manapoints;
   }
 
+  public int getDamage_taken() {
+    return damage_taken / 2;
+  }
+
 }
