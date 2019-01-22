@@ -35,6 +35,25 @@ public class Player extends Squishy {
 
   }
 
+  public void magicAttack(Squishy target, int power) {
+    if(name.equals("Cloud")) {
+      // enemy gets one shotted basically
+      super.magicAttack(target, level, power);
+
+    } else if(name.equals("Barret")) {
+      // enemy gets kinda one shotted but honestly not really
+      // Barret with a capital F to pay respects
+      super.magicAttack(target, level, power);
+
+    } else {
+      // you again? Come, I'll vanquish you every time! - simon belmont
+
+    }
+
+  }
+
+
+
   public void takeDamage(int damage) {
     super.takeDamage(damage);
     damage_taken += damage;
