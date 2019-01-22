@@ -349,17 +349,17 @@ public class Game {
           enemySelect(players.get(i), enemies, terminal);
           remove();
           updateScreen(terminal);
-          if(enemies.isEmpty()){
+          if(enemies.isEmpty()) {
             terminal.clearScreen();
           }
           wait(1000);
         }
 
-        for(int i = 0; i < enemies.size(); i++) {
-          // "MP 0 : ATTACK : Cloud : 4"
-          putString(6, 7 + (enemies.size() * 3), terminal, enemies.get(i).getName() + i + enemies.get(k).attack(enemies.get(k).selectTarget(players), 5, 10);
+        for(int i=0; i<enemies.size(); i++) {
+          Squishy target = enemies.get(i).selectTarget(players);
+          putString(6, 7 + (enemies.size() * 3), terminal, "> " + enemies.get(i).getName() + " " + i + " : ATTACK : " + target.getName() + " : " + enemies.get(i).attack(target, 5, 10));
+          wait(1500);
           updateScreen(terminal);
-          wait(1000);
         }
 
         battleEnd(terminal);
