@@ -108,9 +108,10 @@ public class Game {
   public static void battleEnd(Terminal terminal) {
     if(enemies.isEmpty()) {
       // change mode --> world map
+      terminal.clearScreen();
       mode = 0;
 
-      terminal.clearScreen();
+
     }
 
   }
@@ -132,49 +133,65 @@ public class Game {
     putString(6, 5 + (enemies.size() * 3), terminal, "------------------------------------------------------");
 
     for(int i=0; i<players.size(); i++) {
-      putString(8, 7 + (enemies.size() * 3) + i, terminal, players.get(i).getName());
-      putString(27, 7 + (enemies.size() * 3) + i, terminal, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100");
+      putString(8, 9 + (enemies.size() * 3) + i, terminal, players.get(i).getName());
+      putString(27, 9 + (enemies.size() * 3) + i, terminal, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100");
     }
   }
 
   public static void enemySelect(Player player, ArrayList<Enemy> enemies, Terminal terminal) {
     int cursor_xpos = 14;
-    int cursor_ypos = 7 + (enemies.size() * 3);
+    int cursor_ypos = 9 + (enemies.size() * 3);
     String cursor = "\u261B";   // default right pointing cursor
     boolean physical = true;
 
-    while(true) {
+    String flavortext = "> " + player.getName() + " : ";
+    String temp = "";
 
+    while(true) {
       putString(cursor_xpos, cursor_ypos, terminal, cursor);
+      putString(6, 7 + (enemies.size() * 3), terminal, flavortext);
 
       Key key = terminal.readInput();
 
       updateScreen(terminal);
-      putString(17, 7 + (enemies.size() * 3), terminal, "Attack");
-      putString(17, 8 + (enemies.size() * 3), terminal, "Magic");
+      putString(17, 9 + (enemies.size() * 3), terminal, "Attack");
+      putString(17, 10 + (enemies.size() * 3), terminal, "Magic");
 
       if(key != null) {
 
         if(key.getCharacter() == 'w') {
           if(cursor.equals("\u261B")) {    // if up action is permitted
-            if(cursor_ypos == 8 + (enemies.size() * 3)) { cursor_ypos -= 1; }
+            if(cursor_ypos == 10 + (enemies.size() * 3)) { cursor_ypos -= 1; }
           } else {
-            cursor_ypos -= 3;
+            if(cursor_ypos != 5) {
+              flavortext = temp;
+              cursor_ypos -= 3;
+              flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
+            }
           }
         }
 
         if(key.getCharacter() == 's') {
           if(cursor.equals("\u261B")) {   // if down action is permitted
-            if(cursor_ypos == 7 + (enemies.size() * 3)) { cursor_ypos += 1; }
+            if(cursor_ypos == 9 + (enemies.size() * 3)) { cursor_ypos += 1; }
           } else {
-            cursor_ypos += 3;
+            if(cursor_ypos != 2 + (enemies.size() * 3)) {
+              flavortext = temp;
+              cursor_ypos += 3;
+              flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
+            }
           }
         }
 
         if(key.getCharacter() == 'j') {
           if(cursor.equals("\u261B")) {
-            if(cursor_ypos == 8 + (enemies.size() * 3)) {
+            if(cursor_ypos == 10 + (enemies.size() * 3)) {
               physical = false;
+              flavortext += "MAGIC : ";
+              temp = flavortext;
+            } else {
+              flavortext += "ATTACK : ";
+              temp = flavortext;
             }
 
             cursor = "\u261A";
@@ -182,11 +199,18 @@ public class Game {
             // sets the cursor location to enemy selection
             cursor_xpos = 15;
             cursor_ypos = 5;
+
+            flavortext = temp;
+            flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
           } else {
             if(physical) {
-              player.attack(enemies.get((cursor_ypos - 5) / 3));
+              flavortext += player.attack(enemies.get((cursor_ypos - 5) / 3));
+              putString(6, 7 + (enemies.size() * 3), terminal, flavortext);
+              wait(1000);
             } else {
-              player.magicAttack(enemies.get((cursor_ypos - 5) / 3));
+              flavortext += player.magicAttack(enemies.get((cursor_ypos - 5) / 3));
+              putString(6, 7 + (enemies.size() * 3), terminal, flavortext);
+              wait(1000);
             }
             return;
           }
@@ -198,7 +222,7 @@ public class Game {
 
             // sets the cursor location to attack selection
             cursor_xpos = 14;
-            cursor_ypos = 7 + (enemies.size() * 3);
+            cursor_ypos = 9 + (enemies.size() * 3);
           }
         }
       }
@@ -325,6 +349,9 @@ public class Game {
           enemySelect(players.get(i), enemies, terminal);
           remove();
           updateScreen(terminal);
+          if(enemies.isEmpty()){
+            terminal.clearScreen();
+          }
           wait(1000);
         }
 
