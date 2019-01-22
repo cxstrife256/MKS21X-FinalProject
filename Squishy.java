@@ -37,7 +37,7 @@ abstract class Squishy {
 
   }
 
-  public int attack(Squishy target, int level, int power) {
+  public String attack(Squishy target, int level, int power) {
     // the Physical Formula for Base Damage is defined as such:
     // Base Damage = Att + [(Att + Lvl) / 32] * [(Att * Lvl) / 32]
     int base_damage = attack + ((attack + level) / 32) * ((attack * level) / 32);
@@ -48,7 +48,7 @@ abstract class Squishy {
 
     target.takeDamage(damage);
 
-    return damage;
+    return "" + damage;
 
   }
 

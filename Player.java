@@ -18,7 +18,7 @@ public class Player extends Squishy {
 
   }
 
-  public int attack(Squishy target) {
+  public String attack(Squishy target) {
     if(name.equals("Cloud")) {
       // enemy gets one shotted basically
       return super.attack(target, level, 26);
@@ -33,7 +33,7 @@ public class Player extends Squishy {
 
     }
 
-    return 0;
+    return "";
 
   }
 
