@@ -4,7 +4,6 @@
 
 ## 1.) Open terminal in full screen
 ## 2.) Run bash complie.sh
-## 3.) Enjoy the 70 second opening scene
 
 # 1/5/19
 
@@ -123,7 +122,7 @@ Added getName for all normal enemies and updated getName in Squishy Added boolea
 # 1/21/19 - 1/22/19
 
 ## Timothy
-Added movement within the menus. Added Screen, and people who said that using screen would be easy are liars. We had to make our own putString: printstr() to print our map because putString doesn’t handle newline well(read: at all). Removed unneeded variables. Added the flavor text for the battles. Fixed the many bugs that existed within our battle system.The madman actually did it, he added audio at 4 in the morning and a opening scence.
+Added movement within the menus. Added Screen, and people who said that using screen would be easy are liars. We had to make our own putString: printstr() to print our map because putString doesn’t handle newline well(read: at all). Removed unneeded variables. Added the flavor text for the battles. Fixed the many bugs that existed within our battle system.
 
 ## Cody
 Added max hitpoints, getManaPoints(), getDmgTaken(). Combat is now actually playable. There is a menu at the bottom to select which enemy to attack, and what attack to use. Made wait() into something that worked. Added Magical Attack() and the formula to calculate that. Added Guard Scorpion and its boss battle setup
