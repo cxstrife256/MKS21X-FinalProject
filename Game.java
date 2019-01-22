@@ -356,7 +356,8 @@ public class Game {
         }
 
         for(int i = 0; i < enemies.size(); i++) {
-          enemies.get(k).attack(enemies.get(k).selectTarget(players), 5, 10);
+          // "MP 0 : ATTACK : Cloud : 4"
+          putString(6, 7 + (enemies.size() * 3), terminal, enemies.get(i).getName() + i + enemies.get(k).attack(enemies.get(k).selectTarget(players), 5, 10);
           updateScreen(terminal);
           wait(1000);
         }

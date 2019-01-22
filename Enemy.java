@@ -7,8 +7,8 @@ public class Enemy extends Squishy {
 
   }
 
-  public void attack(Squishy target, int power) {
-    super.attack(target, 5, power);
+  public String attack(Squishy target, int power) {
+    return super.attack(target, 5, power);
 
   }
 
