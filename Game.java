@@ -94,9 +94,6 @@ public class Game {
     }
   }
 
-  // select Enemy target
-
-
   // starts a random encounter
   public static void battleStart(Terminal terminal) {
     // change mode --> battle
@@ -158,13 +155,15 @@ public class Game {
       if(key != null) {
 
         if(key.getCharacter() == 'w') {
-          if(cursor_ypos > 6 + (enemies.size() * 3)) {    // if up action is permitted
+          if(cursor.equals("\u261B")) {    // if up action is permitted
             cursor_ypos -= 1;
+          } else {
+            cursor_ypos -= 4;
           }
         }
 
         if(key.getCharacter() == 's') {
-          if(cursor_ypos > 6 + (enemies.size() * 3)) {   // if down action is permitted
+          if(cursor.equals("\u261B")) {   // if down action is permitted
             cursor_ypos += 1;
           }
         }
