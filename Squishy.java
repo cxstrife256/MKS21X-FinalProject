@@ -37,7 +37,7 @@ abstract class Squishy {
 
   }
 
-  public void attack(Squishy target, int level, int power) {
+  public int attack(Squishy target, int level, int power) {
     // the Physical Formula for Base Damage is defined as such:
     // Base Damage = Att + [(Att + Lvl) / 32] * [(Att * Lvl) / 32]
     int base_damage = attack + ((attack + level) / 32) * ((attack * level) / 32);
@@ -48,9 +48,11 @@ abstract class Squishy {
 
     target.takeDamage(damage);
 
+    return damage;
+
   }
 
-  public void magicAttack(Squishy target, int level, int power) {
+  public int magicAttack(Squishy target, int level, int power) {
     // the Magical Formula for Base Damage is defined as such:
     // Base Damage = 6 * (MAt + Lvl)
     int base_damage = 6 * (magic_atk + level);
@@ -60,6 +62,8 @@ abstract class Squishy {
     int damage = ((power * ( 512 - target.magic_def) * base_damage) / (16 * 512));
 
     target.takeDamage(damage);
+
+    return damage;
   }
 
   public void takeDamage(int damage) {
