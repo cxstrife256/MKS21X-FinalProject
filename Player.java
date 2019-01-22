@@ -18,37 +18,41 @@ public class Player extends Squishy {
 
   }
 
-  public void attack(Squishy target) {
+  public int attack(Squishy target) {
     if(name.equals("Cloud")) {
       // enemy gets one shotted basically
-      super.attack(target, level, 26);
+      return super.attack(target, level, 26);
 
     } else if(name.equals("Barret")) {
       // enemy gets kinda one shotted but honestly not really
       // Barret with a capital F to pay respects
-      super.attack(target, level, 18);
+      return super.attack(target, level, 18);
 
     } else {
       // you don't belong in this world, monster! - richter belmont
 
     }
 
+    return 0;
+
   }
 
-  public void magicAttack(Squishy target) {
+  public int magicAttack(Squishy target) {
     if(name.equals("Cloud")) {
       // enemy gets one shotted basically
-      super.magicAttack(target, level, 100);
+      return super.magicAttack(target, level, 100);
 
     } else if(name.equals("Barret")) {
       // enemy gets kinda one shotted but honestly not really
       // Barret with a capital F to pay respects
-      super.magicAttack(target, level, 100);
+      return super.magicAttack(target, level, 100);
 
     } else {
       // you again? Come, I'll vanquish you every time! - simon belmont
 
     }
+
+    return 0;
 
   }
 
