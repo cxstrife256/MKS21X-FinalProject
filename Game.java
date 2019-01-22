@@ -21,8 +21,8 @@ public class Game {
      2 : menu
   */
   private static int mode;
-  private static ArrayList<Squishy> players;
-  private static ArrayList<Squishy> enemies;
+  private static ArrayList<Player> players;
+  private static ArrayList<Enemy> enemies;
 
   public static void putString(int row, int col, Terminal t, String str) { // replace with screen
 		t.moveCursor(row, col);
@@ -140,11 +140,57 @@ public class Game {
     }
   }
 
+  public static void enemySelect(Player player, ArrayList<Enemy> enemies, Terminal terminal) {
+    int cursor_xpos = 12;
+    int cursor_ypos = 7 + (enemies.size() * 3);
+    String cursor = "\u261B";   // default right pointing cursor
+
+    while(true) {
+
+      putString(cursor_xpos, cursor_ypos, terminal, cursor);
+
+      Key key = terminal.readInput();
+
+      updateScreen(terminal);
+      putString(14, 7 + (enemies.size() * 3), terminal, "Attack");
+      putString(14, 8 + (enemies.size() * 3), terminal, "Magic");
+
+      if(key != null) {
+
+        if(key.getCharacter() == 'w') {
+          if(cursor_ypos > 6 + (enemies.size() * 3)) {    // if up action is permitted
+            cursor_ypos -= 4;
+          }
+        }
+
+        if(key.getCharacter() == 's') {
+          if(cursor_ypos > 6 + (enemies.size() * 3)) {   // if down action is permitted
+            cursor_ypos += 4;
+          }
+        }
+
+        if(key.getCharacter() == 'j') {
+          if(cursor.equals("\u261B")) {
+            // sets the cursor to the left pointer
+            cursor = "\u261A";
+
+            // sets the cursor location to enemy selection
+            cursor_xpos = 15;
+            cursor_ypos = 5;
+          } else {
+            player.attack(enemies.get((cursor_ypos - 5) / 3));
+            return;
+          }
+        }
+      }
+    }
+  }
+
   public static void main(String[] args) {
 
     mode = 0;
-    players = new ArrayList<Squishy>();
-    enemies = new ArrayList<Squishy>();
+    players = new ArrayList<Player>();
+    enemies = new ArrayList<Enemy>();
 
     // instance of Player "Cloud"
     //                        name     hp     atk  dex  vit  mag  spt  lck  mnp  lvl
@@ -201,7 +247,7 @@ public class Game {
   				}
 
           // arrow control scheme
-          if(key.getKind() == Key.Kind.ArrowUp) {
+          if(key.getCharacter() == 'w') {
             if((map.canMove(x/2, y, 0, -1) != 1)) {
               if((map.canMove(x/2, y, 0, -1) == 2)) { terminal.clearScreen(); }
               terminal.moveCursor(x, y);
@@ -212,7 +258,7 @@ public class Game {
             }
   				}
 
-  				if(key.getKind() == Key.Kind.ArrowDown) {
+  				if(key.getCharacter() == 's') {
             if((map.canMove(x/2, y, 0, 1) != 1)) {
               if((map.canMove(x/2, y, 0, 1) == 2)) { terminal.clearScreen(); }
               terminal.moveCursor(x, y);
@@ -223,7 +269,7 @@ public class Game {
             }
   				}
 
-          if (key.getKind() == Key.Kind.ArrowLeft) {
+          if (key.getCharacter() == 'a') {
             if((map.canMove(x/2, y, -1, 0) != 1)) {
               if((map.canMove(x/2, y, -1, 0) == 2)) { terminal.clearScreen(); }
               terminal.moveCursor(x, y);
@@ -234,7 +280,7 @@ public class Game {
             }
           }
 
-          if (key.getKind() == Key.Kind.ArrowRight) {
+          if (key.getCharacter() == 'd') {
             if((map.canMove(x/2, y, 1, 0) !=1)) {
               if((map.canMove(x/2, y, 1, 0) == 2)) { terminal.clearScreen(); }
               terminal.moveCursor(x, y);
@@ -262,10 +308,12 @@ public class Game {
 
       // mode: battle
       } else if(mode == 1) {
-        Cloud.attack(enemies.get(0), 12);
-        remove();
-        updateScreen(terminal);
-        wait(1000);
+        for(int i=0; i<players.size(); i++) {
+          enemySelect(players.get(i), enemies, terminal);
+          remove();
+          updateScreen(terminal);
+          wait(1000);
+        }
 
         for(int i = 0; i < enemies.size(); i++) {
           enemies.get(k).attack(enemies.get(k).selectTarget(players), 5, 10);

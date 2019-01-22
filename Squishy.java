@@ -50,7 +50,7 @@ abstract class Squishy {
 
   }
 
-  public void magic(Squishy target, int level, int power) {
+  public void magicAttack(Squishy target, int level, int power) {
     // the Magical Formula for Base Damage is defined as such:
     // Base Damage = 6 * (MAt + Lvl)
     int base_damage = 6 * (magic_atk + level);
@@ -80,13 +80,6 @@ abstract class Squishy {
     return " ";
 
   }
-
-  // select target at random
-  public Squishy selectTarget(ArrayList<Squishy> targets) {
-    return new Enemy(10, 5, 5, 5, 5, 5, 5);
-
-  }
-
 
   public int getMaxHitpoints() {
     return 0;
