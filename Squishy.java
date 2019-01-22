@@ -50,6 +50,18 @@ abstract class Squishy {
 
   }
 
+  public void magic(Squishy target, int level, int power) {
+    // the Magical Formula for Base Damage is defined as such:
+    // Base Damage = 6 * (MAt + Lvl)
+    int base_damage = 6 * (magic_atk + level);
+
+    // Ability Power and the defense stat are then used
+    //Damage = [(Power * (512 - MDf) * Base Damage) / (16 * 512)]
+    int damage = ((power * ( 512 - target.magic_def) * base_damage) / (16 * 512));
+
+    target.takeDamage(damage);
+  }
+
   public void takeDamage(int damage) {
     hitpoints -= damage;
 
