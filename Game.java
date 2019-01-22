@@ -155,73 +155,55 @@ public class Game {
   }
 
   public static void enemySelect(Player player, ArrayList<Enemy> enemies, Terminal terminal, Screen screen) {
-    int cursor_xpos = 14;
-    int cursor_ypos = 9 + (enemies.size() * 3);
-    String cursor = "\u261B";   // default right pointing cursor
-    boolean physical = true;    // determines what type of attack
+    try {
+      AudioPlayer CURSOR_MOVE = new AudioPlayer("media/EFFECTS/CURSOR_MOVE.wav", false);
+      AudioPlayer CURSOR_BACK = new AudioPlayer("media/EFFECTS/CURSOR_BACK.wav", false);
 
-    String flavortext = "> " + player.getName() + " : ";
-    String temp = "";
+      AudioPlayer SWORD_ATTACK = new AudioPlayer("media/EFFECTS/SWORD_ATTACK.wav", false);
+      AudioPlayer MACHINE_GUN = new AudioPlayer("media/EFFECTS/MACHINE_GUN.wav", false);
 
-    screen.clear();
+      AudioPlayer MAGIC_ACTIVATE = new AudioPlayer("media/EFFECTS/MAGIC_ACTIVATE.wav", false);
+      AudioPlayer BOLT_1 = new AudioPlayer("media/EFFECTS/BOLT_1.wav", false);
 
-    update(screen);
+      int cursor_xpos = 14;
+      int cursor_ypos = 9 + (enemies.size() * 3);
+      String cursor = "\u261B";   // default right pointing cursor
+      boolean physical = true;    // determines what type of attack
 
-    printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);          // puts the cursor
-    printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);   // puts the flavortext
+      String flavortext = "> " + player.getName() + " : ";
+      String temp = "";
 
-    printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-    printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+      screen.clear();
 
-    screen.refresh();
+      update(screen);
 
-    while(true) {
-      printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-      printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-
-      Key key = terminal.readInput();
+      printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);          // puts the cursor
+      printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);   // puts the flavortext
 
       printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
       printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
-      if(key != null) {
+      screen.refresh();
 
-        if(key.getCharacter() == 'w') {
-          if(cursor.equals("\u261B")) {    // if up action is permitted
-            if(cursor_ypos == 10 + (enemies.size() * 3)) {
-              cursor_ypos -= 1;
+      while(true) {
+        printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+        printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
-              update(screen);
-              printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+        Key key = terminal.readInput();
 
-              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              screen.refresh();
-            }
-          } else {
-            if(cursor_ypos != 5) {
-              cursor_ypos -= 3;
-              flavortext = temp;
-              flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
+        printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+        printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
-              update(screen);
-              printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+        if(key != null) {
 
-              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              screen.refresh();
-
-              flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
-            }
-          }
-        }
-
-        if(key.getCharacter() == 's') {
-          if(cursor.equals("\u261B")) {   // if down action is permitted
-            if(cursor_ypos == 9 + (enemies.size() * 3)) {
-                cursor_ypos += 1;
+          if(key.getCharacter() == 'w') {
+            if(cursor.equals("\u261B")) {    // if up action is permitted
+              if(cursor_ypos == 10 + (enemies.size() * 3)) {
+                cursor_ypos -= 1;
+                CURSOR_MOVE.play();
+                wait(500);
+                CURSOR_MOVE.stop();
+                CURSOR_MOVE.resetAudioStream();
 
                 update(screen);
                 printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
@@ -230,42 +212,170 @@ public class Game {
                 printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
                 printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
                 screen.refresh();
+              }
+            } else {
+              if(cursor_ypos != 5) {
+                cursor_ypos -= 3;
+                CURSOR_MOVE.play();
+                wait(500);
+                CURSOR_MOVE.stop();
+                CURSOR_MOVE.resetAudioStream();
+
+                flavortext = temp;
+                flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
+
+                update(screen);
+                printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+                printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                screen.refresh();
+
+                flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
+              }
             }
-          } else {
-            if(cursor_ypos != 2 + (enemies.size() * 3)) {
-              cursor_ypos += 3;
+          }
+
+          if(key.getCharacter() == 's') {
+            if(cursor.equals("\u261B")) {   // if down action is permitted
+              if(cursor_ypos == 9 + (enemies.size() * 3)) {
+                  cursor_ypos += 1;
+                  CURSOR_MOVE.play();
+                  wait(500);
+                  CURSOR_MOVE.stop();
+                  CURSOR_MOVE.resetAudioStream();
+
+                  update(screen);
+                  printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                  printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+                  printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                  printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                  screen.refresh();
+              }
+            } else {
+              if(cursor_ypos != 2 + (enemies.size() * 3)) {
+                cursor_ypos += 3;
+                CURSOR_MOVE.play();
+                wait(500);
+                CURSOR_MOVE.stop();
+                CURSOR_MOVE.resetAudioStream();
+
+                flavortext = temp;
+                flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
+
+                update(screen);
+                printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+                printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+                screen.refresh();
+              }
+            }
+          }
+
+          if(key.getCharacter() == 'j') {    // selection
+            CURSOR_MOVE.play();
+            wait(500);
+            CURSOR_MOVE.stop();
+            CURSOR_MOVE.resetAudioStream();
+
+            if(cursor.equals("\u261B")) {
+              if(cursor_ypos == 10 + (enemies.size() * 3)) {
+                physical = false;
+                flavortext += "MAGIC : ";
+                temp = flavortext;
+              } else {
+                physical = true;
+                flavortext += "ATTACK : ";
+                temp = flavortext;
+              }
+
+              cursor = "\u261A";
+
+              // sets the cursor location to enemy selection
+              cursor_xpos = 15;
+              cursor_ypos = 5;
+              update(screen);
+              printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              screen.refresh();
+
               flavortext = temp;
               flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
-
               update(screen);
               printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
               printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
               printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
               printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-
               screen.refresh();
+            } else {
+              if(physical) {
+                if(player.getName().equals("Cloud")) {
+                  SWORD_ATTACK.play();
+                  wait(500);
+                  SWORD_ATTACK.stop();
+                }
+                if(player.getName().equals("Barret")) {
+                  MACHINE_GUN.play();
+                  wait(1000);
+                  MACHINE_GUN.stop();
+                }
+                flavortext += player.attack(enemies.get((cursor_ypos - 5) / 3));
+                printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                update(screen);
+                printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+                printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                screen.refresh();
+                wait(1000);
+              } else {
+                MAGIC_ACTIVATE.play();
+                wait(1000);
+                MAGIC_ACTIVATE.stop();
+                MAGIC_ACTIVATE.resetAudioStream();
+                BOLT_1.play();
+                wait(1500);
+                BOLT_1.stop();
+                BOLT_1.resetAudioStream();
+
+                flavortext += player.magicAttack(enemies.get((cursor_ypos - 5) / 3));
+                printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                update(screen);
+                printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+                printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                screen.refresh();
+                wait(1000);
+              }
+              return;
             }
           }
-        }
 
-        if(key.getCharacter() == 'j') {    // selection
-          if(cursor.equals("\u261B")) {
-            if(cursor_ypos == 10 + (enemies.size() * 3)) {
-              physical = false;
-              flavortext += "MAGIC : ";
-              temp = flavortext;
-            } else {
-              physical = true;
-              flavortext += "ATTACK : ";
-              temp = flavortext;
+          if(key.getCharacter() == 'k') {   // go back to select an attack
+            CURSOR_BACK.play();
+            wait(500);
+            CURSOR_BACK.stop();
+            if(cursor.equals("\u261A")) {
+              cursor = "\u261B";
+
+              flavortext = "> " + player.getName() + " : ";
+
+              // sets the cursor location to attack selection
+              cursor_xpos = 14;
+              cursor_ypos = 9 + (enemies.size() * 3);
             }
-
-            cursor = "\u261A";
-
-            // sets the cursor location to enemy selection
-            cursor_xpos = 15;
-            cursor_ypos = 5;
             update(screen);
             printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
             printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
@@ -273,63 +383,11 @@ public class Game {
             printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
             printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
             screen.refresh();
-
-            flavortext = temp;
-            flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
-            update(screen);
-            printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-            printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-
-            printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-            printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-            screen.refresh();
-          } else {
-            if(physical) {
-              flavortext += player.attack(enemies.get((cursor_ypos - 5) / 3));
-              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              update(screen);
-              printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-
-              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              screen.refresh();
-              wait(1000);
-            } else {
-              flavortext += player.magicAttack(enemies.get((cursor_ypos - 5) / 3));
-              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              update(screen);
-              printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-
-              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              screen.refresh();
-              wait(1000);
-            }
-            return;
           }
-        }
-
-        if(key.getCharacter() == 'k') {   // go back to select an attack
-          if(cursor.equals("\u261A")) {
-            cursor = "\u261B";
-
-            flavortext = "> " + player.getName() + " : ";
-
-            // sets the cursor location to attack selection
-            cursor_xpos = 14;
-            cursor_ypos = 9 + (enemies.size() * 3);
-          }
-          update(screen);
-          printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-          printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-
-          printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-          printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-          screen.refresh();
         }
       }
+    } catch(Exception e) {
+      e.printStackTrace();
     }
   }
 
@@ -344,12 +402,6 @@ public class Game {
     Player Cloud = new Player("Cloud", 314,   20,  6,   16,  19,  17,  14,  54,  6  );
     // add Cloud to list of Players
     players.add(Cloud);
-
-//  // instance of Player "Barret"
-//  //                         name        hp     atk  dex  vit  mag  spt  lck  mnp  lvl
-//  Player Barret = new Player("Barret",   222,   15,  5,   13,  11,  9,   13,  15,  1  );
-//  // add Barret to list of Players
-//  Players.add(Barret);
 
     // init map
     Map map = new Map();
@@ -368,9 +420,52 @@ public class Game {
     // first battle
     boolean f = true;
 
-    // boos battle
+    // boss battle
     boolean b = true;
 
+    // barret joins the party
+    boolean Bar = true;
+
+
+    try {
+      AudioPlayer OPENING_BOMBING_MISSION = new AudioPlayer("media/MUSIC/OPENING_BOMBING_MISSION.wav", false);
+      OPENING_BOMBING_MISSION.play();
+    } catch(Exception e) { e.printStackTrace(); }
+
+    wait(41000);
+    printStr(screen, 3, 6, "                                                                                                                   #   (@              ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 7, "                                                                                                            /&&&&&*.&&                 ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 8, "                                                                                        .%%,            &&&&&&&&%,                     ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 9, "                                                                                               ((   %&&&&&&&&&.,                       ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 10, "                                                                                     ,#  ( *%%  %%&&&&&&&&&&&%                        ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 11, "                                                                                %,%/,%,#%%%,(%%%%%%&&&&&&.                            ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 12, "                                                                          . ##%%%%%%%%%%%%%%%%%%%%%%%(#                               ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 13, "                                                                       #########%%%%%%%%%%%%%%%%%%%%#                                 ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 14, "                                                         ./(((((((##################%%%%%%%%%%%%%/#.                                  ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 15, "                                                   ./     .//((((((((#################%%%%%%%%,%,                                     ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 16, "                                                 *          ,((((((((((((################%%.#./                                       ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 17, "                             @@*@@ .@( #@&  @ . &@,  .@.   ((((@@*@@*(,@@/##@@.#%@#*@ @@&@*# @@   @@*@  @@  @     @@  @/ @@  @@       ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 18, "                             @@  @ .@( #*@  @   @@%  .@.///////@@ (@ ( @@.((@@@#(@#% .@@(@ #,/@  #@. @@ ,@  @     (@  @  @@  @@       ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 19, "                             @@    .@( #*@( @ * @%@  ,@.///////@@ (*/(*#@.((@ @*,@#@#.@@#   % @  #@. @@  @#/@      @ .@  @@  @@       ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 20, "                             @@    .@( #%@@ @ * @(@ .,@.*///  ,@@ /,((&,@#((@ @% @###.@@    @ @   @@     @@@,      @./@  @@  @@       ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 21, "                             @@ @  .@( #&(@ @   @.@  .@.*  ,///@@ @,//@ @@((@.@@ @(((.@@    @ @,  .@@    ,@@       @/&@  @@  @@       ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 22, "                             @@ @  .@( #@ @#@  ,@ @  ,@. ,**///@@ @,*/@ @@((@*/@ @((( @@    @ @%    @@    @@       @%@/  @@  @@       ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 23, "                             @@    .@( #@ @@@  && @. .@.     */@@  ,//@,@@/(@#*@&@((( @@    @ @@     @&   @@       &@@   @@  @@       ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 24, "                             @@    .@( #@  @@  @@@@# .@.,*&****@@  //.@@@@*/@&/&@@((. @@   .@@@@  @. @@   @@       *@@   @@  @@       ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 25, "                             @@    .@( #@  @@  @* @@ .@..,*****@@ **/ @/(@./@@/.@@*/  @@   #@ @@ %@. @@   @@        @@   @@  @@       ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 26, "                             @@    .@( #@  #@  @. @@ .@.#@.**,*@@ ****@/,@ /@@//@@/   @@   @@ @@  @&.@/   @@        @@   @@  @@       ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 27, "                                                           *,*************// /////                                                    ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 28, "                          .,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,    ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 29, "                                              .....,,,,,,,,,,,,*********** ,**.                                                       ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 30, "                                               .......,,,,,,,,,,,,******. ***                                                         ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 31, "                                                     ....,,,,,,,,,,,,*****.                                                           ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 32, "                                                      .....,,,,,,,,,,,,*                                                              ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    printStr(screen, 3, 33, "                                                        ......,,,,,  .                                                                ", Terminal.Color.DEFAULT, Terminal.Color.DEFAULT);
+    screen.refresh();
+
+    wait(29000);
+    screen.clear();
+    screen.refresh();
 
     while(true) {
 
@@ -394,7 +489,6 @@ public class Game {
           // arrow control scheme
           if(key.getCharacter() == 'w') {            // w to move up
             if((map.canMove(x/2, y, 0, -1) != 1)) {
-              if((map.canMove(x/2, y, 0, -1) == 2)) { screen.clear(); }
     					y -= 1;
               encounter(map, screen);                //  chance to encounter a battle
               screen.refresh();
@@ -403,7 +497,6 @@ public class Game {
 
   				if(key.getCharacter() == 's') {            // s to move down
             if((map.canMove(x/2, y, 0, 1) != 1)) {
-              if((map.canMove(x/2, y, 0, 1) == 2)) { screen.clear(); }
     					y += 1;
               encounter(map, screen);                // chance to encounter a battle
               screen.refresh();
@@ -412,17 +505,39 @@ public class Game {
 
           if (key.getCharacter() == 'a') {            // a to move left
             if((map.canMove(x/2, y, -1, 0) != 1)) {
-              if((map.canMove(x/2, y, -1, 0) == 2)) { screen.clear(); }
-    					x -= 2;
-              encounter(map, screen);                 // chance to encounter a battle
+              if((map.canMove(x/2, y, -1, 0) == 2)) {
+                screen.clear();
+                if(map.getID() == 1) {                 // can only go to the next room from the left
+                  x = 16;
+                  y = 6;
+                }
+                if(map.getID() == 2) {
+                  x = 10;
+                  y = 8;
+                }
+              } else {
+                x -= 2;
+              }
+              encounter(map, screen);                 // chance to encounter a b
               screen.refresh();
             }
           }
 
           if (key.getCharacter() == 'd') {             // d to move right
             if((map.canMove(x/2, y, 1, 0) !=1)) {
-              if((map.canMove(x/2, y, 1, 0) == 2)) { screen.clear(); }
-    					x += 2;
+              if((map.canMove(x/2, y, 1, 0) == 2)) {
+                screen.clear();
+                if(map.getID() == 0) {
+                  x = 4;
+                  y = 1;
+                }
+                if(map.getID() == 1) {
+                  x = 4;
+                  y = 1;
+                }
+              } else {
+                x += 2;
+              }
               encounter(map, screen);                  // chance to encounter a battle
               screen.refresh();
             }
@@ -446,7 +561,19 @@ public class Game {
           mode = 1;
         }
 
-        if(b && (y <= 4) && map.getID() == 3) {
+        if(Bar && y <= 5 && map.getID() == 1) {
+          // never get more than one Barret
+          Bar = false;
+
+          // instance of Player "Barret"
+          //                         name        hp     atk  dex  vit  mag  spt  lck  mnp  lvl
+          Player Barret = new Player("Barret",   222,   15,  5,   13,  11,  9,   13,  15,  1  );
+          // add Barret to list of Players
+          players.add(Barret);
+
+        }
+
+        if(b && (y <= 3) && map.getID() == 2) {
           //Spawn in a GuardScorpion
           enemies.add(new GuardScorpion(800, 30, 60, 40, 15, 256, 1));
 
