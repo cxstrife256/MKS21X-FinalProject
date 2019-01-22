@@ -144,19 +144,19 @@ public class Game {
       printStr(screen, 30, 6 + (i * 3), "" + players.get(i).getHitpoints(), Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
     }
 
-    printStr(screen, 6, 5 + (enemies.size() * 3), "------------------------------------------------------", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+    printStr(screen, 6, 8 + (enemies.size() * 3), "------------------------------------------------------", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
     for(int i=0; i<players.size(); i++) {
-      printStr(screen, 8, 9 + (enemies.size() * 3) + i, players.get(i).getName(), Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-      printStr(screen, 27, 9 + (enemies.size() * 3) + i, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+      printStr(screen, 8, 12 + (enemies.size() * 3) + i, players.get(i).getName(), Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+      printStr(screen, 27, 12 + (enemies.size() * 3) + i, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
     }
 
-    printStr(screen, 6, 7 + (enemies.size() * 3), "> " , Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+    printStr(screen, 6, 10 + (enemies.size() * 3), "> " , Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
   }
 
   public static void enemySelect(Player player, ArrayList<Enemy> enemies, Terminal terminal, Screen screen) {
     int cursor_xpos = 14;
-    int cursor_ypos = 9 + (enemies.size() * 3);
+    int cursor_ypos = 12 + (enemies.size() * 3);
     String cursor = "\u261B";   // default right pointing cursor
     boolean physical = true;    // determines what type of attack
 
@@ -168,21 +168,21 @@ public class Game {
     update(screen);
 
     printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);          // puts the cursor
-    printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);   // puts the flavortext
+    printStr(screen, 6, 10 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);   // puts the flavortext
 
-    printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-    printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+    printStr(screen, 17, 12 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+    printStr(screen, 17, 13 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
     screen.refresh();
 
     while(true) {
       printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-      printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+      printStr(screen, 6, 10 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
       Key key = terminal.readInput();
 
-      printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-      printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+      printStr(screen, 17, 12 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+      printStr(screen, 17, 13 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
       if(key != null) {
 
@@ -193,10 +193,10 @@ public class Game {
 
               update(screen);
               printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 6, 10 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
-              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 12 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 13 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
               screen.refresh();
             }
           } else {
@@ -207,10 +207,10 @@ public class Game {
 
               update(screen);
               printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 6, 10 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
-              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 12 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 13 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
               screen.refresh();
 
               flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
@@ -225,10 +225,10 @@ public class Game {
 
                 update(screen);
                 printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-                printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                printStr(screen, 6, 10 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
-                printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-                printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                printStr(screen, 17, 12 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                printStr(screen, 17, 13 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
                 screen.refresh();
             }
           } else {
@@ -239,10 +239,10 @@ public class Game {
 
               update(screen);
               printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 6, 10 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
-              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 12 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 13 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
               screen.refresh();
             }
@@ -251,7 +251,7 @@ public class Game {
 
         if(key.getCharacter() == 'j') {    // selection
           if(cursor.equals("\u261B")) {
-            if(cursor_ypos == 10 + (enemies.size() * 3)) {
+            if(cursor_ypos == 13 + (enemies.size() * 3)) {
               physical = false;
               flavortext += "MAGIC : ";
               temp = flavortext;
@@ -268,42 +268,42 @@ public class Game {
             cursor_ypos = 5;
             update(screen);
             printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-            printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+            printStr(screen, 6, 10 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
-            printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-            printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+            printStr(screen, 17, 12 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+            printStr(screen, 17, 13 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
             screen.refresh();
 
             flavortext = temp;
             flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
             update(screen);
             printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-            printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+            printStr(screen, 6, 10 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
-            printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-            printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+            printStr(screen, 17, 12 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+            printStr(screen, 17, 13 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
             screen.refresh();
           } else {
             if(physical) {
               flavortext += player.attack(enemies.get((cursor_ypos - 5) / 3));
-              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 6, 10 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
               update(screen);
               printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 6, 710 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
-              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 12 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 13 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
               screen.refresh();
               wait(1000);
             } else {
               flavortext += player.magicAttack(enemies.get((cursor_ypos - 5) / 3));
-              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 6, 10 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
               update(screen);
               printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 6, 10 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
-              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 12 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 13 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
               screen.refresh();
               wait(1000);
             }
@@ -323,10 +323,10 @@ public class Game {
           }
           update(screen);
           printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-          printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+          printStr(screen, 6, 10 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
-          printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
-          printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+          printStr(screen, 17, 12 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+          printStr(screen, 17, 13 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
           screen.refresh();
         }
       }
@@ -371,6 +371,9 @@ public class Game {
     // boos battle
     boolean b = true;
 
+    // barret
+    boolean bar = true;
+
 
     while(true) {
 
@@ -412,8 +415,19 @@ public class Game {
 
           if (key.getCharacter() == 'a') {            // a to move left
             if((map.canMove(x/2, y, -1, 0) != 1)) {
-              if((map.canMove(x/2, y, -1, 0) == 2)) { screen.clear(); }
-    					x -= 2;
+              if((map.canMove(x/2, y, -1, 0) == 2)) {
+                screen.clear();
+                if(map.getID() == 1){
+                  x = 18;
+                  y = 6;
+                }
+                if(map.getID() == 2){
+                  x = 12;
+                  y = 8;
+                }
+              } else {
+                x -= 2;
+              }
               encounter(map, screen);                 // chance to encounter a battle
               screen.refresh();
             }
@@ -421,8 +435,19 @@ public class Game {
 
           if (key.getCharacter() == 'd') {             // d to move right
             if((map.canMove(x/2, y, 1, 0) !=1)) {
-              if((map.canMove(x/2, y, 1, 0) == 2)) { screen.clear(); }
-    					x += 2;
+              if((map.canMove(x/2, y, 1, 0) == 2)) {
+                sceen.clear();
+                if(map.getID() == 0){
+                  x = 4;
+                  y = 2;
+                }
+                if(map.getID() == 1){
+                  x = 4;
+                  y= 1;
+                }
+              } else {
+    					  x += 2;
+              }
               encounter(map, screen);                  // chance to encounter a battle
               screen.refresh();
             }
@@ -446,7 +471,15 @@ public class Game {
           mode = 1;
         }
 
-        if(b && (y <= 4) && map.getID() == 3) {
+        if( bar && y <= 5 && map.getID() == 1){
+          //instance of Player "Barret"
+          //                         name        hp     atk  dex  vit  mag  spt  lck  mnp  lvl
+          Player Barret = new Player("Barret",   222,   15,  5,   13,  11,  9,   13,  15,  1  );
+          // add Barret to list of Players
+          Players.add(Barret);
+        }
+
+        if(b && (y <= 4) && map.getID() == 2) {
           //Spawn in a GuardScorpion
           enemies.add(new GuardScorpion(800, 30, 60, 40, 15, 256, 1));
 
@@ -481,7 +514,7 @@ public class Game {
         //loops through enemies and gives them the chance to attack
         for(int i=0; i<enemies.size(); i++) {
           Squishy target = enemies.get(i).selectTarget(players);
-          printStr(screen, 6, 7 + (enemies.size() * 3), "> " + enemies.get(i).getName() + " " + i + " : ATTACK : " + target.getName() + " : " + enemies.get(i).attack(target, 5, 10), Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+          printStr(screen, 6, 10 + (enemies.size() * 3), "> " + enemies.get(i).getName() + " " + i + " : ATTACK : " + target.getName() + " : " + enemies.get(i).attack(target, 5, 10), Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
           screen.refresh();
           wait(1500);
         }
