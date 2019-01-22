@@ -141,6 +141,7 @@ public class Game {
     int cursor_xpos = 14;
     int cursor_ypos = 7 + (enemies.size() * 3);
     String cursor = "\u261B";   // default right pointing cursor
+    boolean physical = true;
 
     while(true) {
 
@@ -156,7 +157,7 @@ public class Game {
 
         if(key.getCharacter() == 'w') {
           if(cursor.equals("\u261B")) {    // if up action is permitted
-            if(cursor_ypos == 8) { cursor_ypos -= 1; }
+            if(cursor_ypos == 8 + (enemies.size() * 3)) { cursor_ypos -= 1; }
           } else {
             cursor_ypos -= 3;
           }
@@ -164,7 +165,7 @@ public class Game {
 
         if(key.getCharacter() == 's') {
           if(cursor.equals("\u261B")) {   // if down action is permitted
-            if(cursor_ypos == 7) { cursor_ypos += 1; }
+            if(cursor_ypos == 7 + (enemies.size() * 3)) { cursor_ypos += 1; }
           } else {
             cursor_ypos += 3;
           }
@@ -172,8 +173,8 @@ public class Game {
 
         if(key.getCharacter() == 'j') {
           if(cursor.equals("\u261B")) {
-            if( cursor_ypos == 8 + (enemies.size() * 3)) {
-              Physical = false;
+            if(cursor_ypos == 8 + (enemies.size() * 3)) {
+              physical = false;
             }
 
             cursor = "\u261A";
@@ -182,7 +183,7 @@ public class Game {
             cursor_xpos = 15;
             cursor_ypos = 5;
           } else {
-            if(Physical){
+            if(physical) {
               player.attack(enemies.get((cursor_ypos - 5) / 3));
             } else {
               player.magicAttack(enemies.get((cursor_ypos - 5) / 3));
@@ -231,7 +232,6 @@ public class Game {
     int k = 0;
 
     while(true) {
-      currentTime = System.currentTimeMillis();
 
       // mode: world map
       if(mode == 0) {
