@@ -8,7 +8,7 @@ public class Enemy extends Squishy {
   }
 
   public String attack(Squishy target, int power) {
-    return " : ATTACK  : " + target.getName() + " : " + super.attack(target, 5, power);
+    return super.attack(target, 5, power);
 
   }
 
