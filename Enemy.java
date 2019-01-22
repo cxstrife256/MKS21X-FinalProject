@@ -7,14 +7,18 @@ public class Enemy extends Squishy {
 
   }
 
-  public void attack(Squishy target, int power) {
-    super.attack(target, 5, power);
+  public String attack(Squishy target, int power) {
+    return super.attack(target, 5, power);
 
   }
 
-  public Squishy selectTarget(ArrayList<Squishy> targets) {
+  public Squishy selectTarget(ArrayList<Player> targets) {
     return targets.get((int)(Math.random() * 10000) % targets.size());
 
+  }
+
+  public String getName() {
+    return " ";
   }
 
 }

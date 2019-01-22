@@ -5,9 +5,9 @@ public class Map {
   private int room_ID;              // this is how we keep track of which room we are in
 
   public Map() {
-    //                      room setMap() string                                                              rows  cols
+    //                      room setMap() string                                                                                                      rows  cols
     String[][] maps = {
-                          {"|-----|,|.....|,>.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|-----|", "10", "7"},
+                          {"|-----|,|.....|,>.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|.....|,|-----|", "15", "7"},
                           {"|----|,|....|,|....|,|....<,|----|"                                             , "5" , "6"}
 
                         };
@@ -17,9 +17,6 @@ public class Map {
     room_ID = 0;
 
     // set map (data) according to room_ID
-    resize(Integer.parseInt(map_archive[room_ID][1]), Integer.parseInt(map_archive[room_ID][2]));
-    setMap(map_archive[room_ID][0]);
-    
     resetMap();
 
   }
@@ -38,23 +35,17 @@ public class Map {
   }
 
   public void resetMap() {
-    clear();
     resize(Integer.parseInt(map_archive[room_ID][1]), Integer.parseInt(map_archive[room_ID][2]));
     setMap(map_archive[room_ID][0]);
 
   }
 
-  public void resize(int rows, int cols) {
-    data = new char[rows][cols];
-
+  public int getID() {
+    return room_ID;
   }
 
-  private void clear() {
-    for(int i=0; i<data.length; i++) {
-      for(int j=0; j<data[i].length; j++) {
-        data[i][j] = ' ' ;
-      }
-    }
+  public void resize(int rows, int cols) {
+    data = new char[rows][cols];
 
   }
 
@@ -103,7 +94,7 @@ public class Map {
   }
 
   // debug function for us to test room changing
-  public void changeRoomDebug( int index) {
+  public void changeRoomDebug(int index) {
     room_ID += index;
     resetMap();
   }

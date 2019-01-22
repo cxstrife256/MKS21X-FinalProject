@@ -5,16 +5,21 @@ public class GuardDog extends Enemy{
 
   }
 
-  public void attack(Squishy target) {
+  public String attack(Squishy target) {
     if((int)(Math.random() * 10000) % 3 == 0) {
       // Tentacle
-      super.attack(target, 10);
+      return super.attack(target, 10);
 
     } else {
       // Bite
-      super.attack(target, 10);
+      return super.attack(target, 10);
 
     }
+
+  }
+
+  public String getName() {
+    return "GD";
 
   }
 

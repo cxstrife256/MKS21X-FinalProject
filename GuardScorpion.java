@@ -1,31 +1,35 @@
-public class GuardScorpion extends Squishy {
+public class GuardScorpion extends Enemy {
 
   private boolean tail_raised;
+  private boolean scanner;
 
   public GuardScorpion(int hitpoints, int strength, int dexterity, int vitality, int magic, int spirit, int luck) {
     super(hitpoints, strength, dexterity, vitality, magic, spirit, luck);
     tail_raised = false;
+    scanner = false;
 
   }
 
-  public void attack(Squishy other) {
-    // if tail_raised is true
-    //   use tailLaser for attack
-    //   reset tail_raised to false
-    // else
-    //   deal dmg by formula
+  public String attack(Squishy target) {
+    if (tail_raised) {
+      tail_raised = false;
+      return "" + super.attack(target, 8, 30);
+    } else {
+      if(scanner) {
+        scanner = false;
+        return "" + super.attack(target, 8, 16);
+      } else {
+        scanner = true;
+        return "scanning";
+      }
+    }
 
   }
 
-  public void tailLaser(Squishy other) {
-    // used for attack when tail_raised is true
-    // deal 1.5x standard attack dmg to all enemies
-
-  }
 
   public void takeDamage(int damage) {
-    // if attacked
-    //   set tail_raised true
+    super.takeDamage(damage);
+    tail_raised = true;
 
   }
 

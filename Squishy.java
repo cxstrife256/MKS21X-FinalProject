@@ -37,7 +37,7 @@ abstract class Squishy {
 
   }
 
-  public void attack(Squishy target, int level, int power) {
+  public String attack(Squishy target, int level, int power) {
     // the Physical Formula for Base Damage is defined as such:
     // Base Damage = Att + [(Att + Lvl) / 32] * [(Att * Lvl) / 32]
     int base_damage = attack + ((attack + level) / 32) * ((attack * level) / 32);
@@ -48,6 +48,22 @@ abstract class Squishy {
 
     target.takeDamage(damage);
 
+    return "" + damage;
+
+  }
+
+  public int magicAttack(Squishy target, int level, int power) {
+    // the Magical Formula for Base Damage is defined as such:
+    // Base Damage = 6 * (MAt + Lvl)
+    int base_damage = 6 * (magic_atk + level);
+
+    // Ability Power and the defense stat are then used
+    //Damage = [(Power * (512 - MDf) * Base Damage) / (16 * 512)]
+    int damage = ((power * ( 512 - target.magic_def) * base_damage) / (16 * 512));
+
+    target.takeDamage(damage);
+
+    return damage;
   }
 
   public void takeDamage(int damage) {
@@ -64,14 +80,22 @@ abstract class Squishy {
   // what in tarnation
 
   // get Player name
-  public char getName() {
-    return ' ';
+  public String getName() {
+    return " ";
 
   }
 
-  // select target at random
-  public Squishy selectTarget(ArrayList<Squishy> targets) {
-    return new Enemy(10, 5, 5, 5, 5, 5, 5);
+  public int getMaxHitpoints() {
+    return 0;
+
+  }
+
+  public int getManaPoints()  {
+    return 0;
+  }
+
+  public int getDamage_taken() {
+    return 0;
 
   }
 

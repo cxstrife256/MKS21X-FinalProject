@@ -5,22 +5,27 @@ public class Sweeper extends Enemy {
 
   }
 
-  public void attack(Squishy target) {
+  public String attack(Squishy target) {
     int count = (int)(Math.random() * 10000) % 4;
 
     if(count == 0) {
       // Smoke Shot
-      super.attack(target, 11);
+      return super.attack(target, 11);
 
     } else if(count == 1) {
       // Machine Gun
-      super.attack(target, 7);
+      return super.attack(target, 7);
 
     } else {
       // W Machine Gun
-      super.attack(target, 14);
+      return super.attack(target, 14);
 
     }
+
+  }
+
+  public String getName() {
+    return "S";
 
   }
 
