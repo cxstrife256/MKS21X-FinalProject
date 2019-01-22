@@ -138,7 +138,7 @@ public class Game {
   }
 
   public static void enemySelect(Player player, ArrayList<Enemy> enemies, Terminal terminal) {
-    int cursor_xpos = 12;
+    int cursor_xpos = 14;
     int cursor_ypos = 7 + (enemies.size() * 3);
     String cursor = "\u261B";   // default right pointing cursor
 
@@ -149,16 +149,18 @@ public class Game {
       Key key = terminal.readInput();
 
       updateScreen(terminal);
-      putString(14, 7 + (enemies.size() * 3), terminal, "Attack");
-      putString(14, 8 + (enemies.size() * 3), terminal, "Magic");
+      putString(17, 7 + (enemies.size() * 3), terminal, "Attack");
+      putString(17, 8 + (enemies.size() * 3), terminal, "Magic");
 
       if(key != null) {
 
         if(key.getCharacter() == 'w') {
           if(cursor.equals("\u261B")) {    // if up action is permitted
-            cursor_ypos -= 1;
+            if(cursor_ypos == 8) {
+              cursor_ypos -= 1;
+            }
           } else {
-            cursor_ypos -= 4;
+            cursor_ypos -= 3;
           }
         }
 
@@ -166,20 +168,27 @@ public class Game {
           if(cursor.equals("\u261B")) {   // if down action is permitted
             cursor_ypos += 1;
           } else {
-            cursor_ypos += 4;
+            cursor_ypos += 3;
           }
         }
 
         if(key.getCharacter() == 'j') {
           if(cursor.equals("\u261B")) {
-            // sets the cursor to the left pointer
+            if( cursor_ypos == 8 + (enemies.size() * 3)) {
+              Physical = false;
+            }
+
             cursor = "\u261A";
 
             // sets the cursor location to enemy selection
             cursor_xpos = 15;
             cursor_ypos = 5;
           } else {
-            player.attack(enemies.get((cursor_ypos - 5) / 3));
+            if(Physical){
+              player.attack(enemies.get((cursor_ypos - 5) / 3));
+            } else {
+              player.magicAttack(enemies.get((cursor_ypos - 5) / 3));
+            }
             return;
           }
         }
@@ -215,16 +224,11 @@ public class Game {
     TerminalSize terminalSize = terminal.getTerminalSize();
     terminal.setCursorVisible(false);
 
-    int x = 12;
+    int x = 8;
     int y = 12;
 
     // first battle
     boolean f = true;
-
-    boolean player_turn = true;
-
-    long currentTime, lastTime;
-    lastTime = 0L;
 
     int k = 0;
 
