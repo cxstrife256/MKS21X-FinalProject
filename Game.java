@@ -108,7 +108,7 @@ public class Game {
 
     screen.clear();
     screen.refresh();
-    wait(500);
+    wait(750);
     enemySetup();
 
   }
@@ -442,11 +442,11 @@ public class Game {
           // change mode --> battle
           screen.clear();
           screen.refresh();
-          wait(500);
+          wait(750);
           mode = 1;
         }
 
-        if(b && (y <= 4) && map.getID(3) == 0) {
+        if(b && (y <= 4) && map.getID() == 3) {
           //Spawn in a GuardScorpion
           enemies.add(new GuardScorpion(800, 30, 60, 40, 15, 256, 1));
 
@@ -456,7 +456,7 @@ public class Game {
           // change mode --> battle
           screen.clear();
           screen.refresh();
-          wait(500);
+          wait(750);
           mode = 1;
         }
 
