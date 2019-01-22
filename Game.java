@@ -191,6 +191,16 @@ public class Game {
             return;
           }
         }
+
+        if(key.getCharacter() == 'k') {
+          if(cursor.equals("\u261A")) {
+            cursor = "\u261B";
+
+            // sets the cursor location to attack selection
+            cursor_xpos = 14;
+            cursor_ypos = 7 + (enemies.size() * 3);
+          }
+        }
       }
     }
   }
