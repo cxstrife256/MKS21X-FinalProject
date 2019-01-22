@@ -12,7 +12,6 @@ import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.input.KeyMappingProfile;
 
 import com.googlecode.lanterna.screen.*;
-import com.googlecode.lanterna.graphics.TextGraphics;
 
 import java.util.ArrayList;
 
@@ -27,20 +26,20 @@ public class Game {
   private static ArrayList<Player> players;
   private static ArrayList<Enemy> enemies;
 
-  // public static void textGraphics.putString(int row, int col, String str, Screen screen) { // replace with screen
-  //   int l = col;
-	// 	for(int i=0; i<str.length(); i++) {
-  //     if(str.charAt(i) == '\n') {
-  //       l = col;
-  //       row += 1;
-  //     }
-	// 		screen.setCharacter(row, col+l, str.charAt(i));
-  //     l++;
-	// 	}
-  //
-	// }
+  public static void printStr(Screen screen, int col, int row, String str, Terminal.Color foregroundColor, Terminal.Color backgroundColor) { // replace with screen
+    int l = 0;
+		for(int i=0; i<str.length(); i++) {
+      screen.putString(col+l, row, "" + str.charAt(i), foregroundColor, backgroundColor);
+      l++;
+      if(str.charAt(i) == '\n') {
+        l = 0;
+        row += 1;
+      }
+		}
 
-  public static void wait(int time){
+	}
+
+  public static void wait(int time) {
     try {
       Thread.sleep(time);
     } catch(InterruptedException e) {
@@ -93,113 +92,170 @@ public class Game {
   }
 
   // does a check to see if the encounter should occur
-  public static void encounter(Map map, Terminal terminal) {
+  public static void encounter(Map map, Screen screen) {
     if(map.getID() != 0) {  // enemies do not spawn in the first room
       if(((int)(Math.random() * 10000) % 100) < 4) {  // 4% chance upon step to get it spicy
-        battleStart(terminal);
+        battleStart(screen);
       }
 
     }
   }
 
   // starts a random encounter
-  public static void battleStart(Terminal terminal) {
+  public static void battleStart(Screen screen) {
     // change mode --> battle
     mode = 1;
 
-    terminal.clearScreen();
+    screen.clear();
+    screen.refresh();
     enemySetup();
 
   }
 
   // check enemy count, if == 0, end battle, change mode
-  public static void battleEnd(Terminal terminal) {
+  public static void battleEnd(Screen screen) {
     if(enemies.isEmpty()) {
       // change mode --> world map
-      terminal.clearScreen();
+      screen.clear();
+      screen.refresh();
       mode = 0;
 
     }
 
   }
 
-  public static void updateScreen(Terminal terminal, Screen screen) {
+  public static void update(Screen screen) {
+    screen.clear();
+
     // loops through list of enemies and places them on the map
     for(int i=0; i<enemies.size(); i++) {
-      textGraphics.putString(8, 5 + (i * 3), enemies.get(i).getName());
-      textGraphics.putString(8, 6 + (i * 3), "" + enemies.get(i).getHitpoints());
+      printStr(screen, 8, 5 + (i * 3), enemies.get(i).getName(), Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+      if(enemies.get(i).getHitpoints() < 0) {
+        printStr(screen, 8, 6 + (i * 3), "0", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+      } else {
+        printStr(screen, 8, 6 + (i * 3), "" + enemies.get(i).getHitpoints(), Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+      }
     }
 
     // loops through list of players and places them on the map
     for(int i=0; i<players.size(); i++) {
-      textGraphics.putString(30, 5 + (i * 3), "" + players.get(i).getName().charAt(0));
-      textGraphics.putString(30, 6 + (i * 3), "" + players.get(i).getHitpoints(), screen );
+      printStr(screen, 30, 5 + (i * 3), "" + players.get(i).getName().charAt(0), Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+      printStr(screen, 30, 6 + (i * 3), "" + players.get(i).getHitpoints(), Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
     }
 
-    textGraphics.putString(6, 5 + (enemies.size() * 3), "------------------------------------------------------");
+    printStr(screen, 6, 5 + (enemies.size() * 3), "------------------------------------------------------", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
     for(int i=0; i<players.size(); i++) {
-      textGraphics.putString(8, 9 + (enemies.size() * 3) + i, players.get(i).getName());
-      textGraphics.putString(27, 9 + (enemies.size() * 3) + i, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100");
+      printStr(screen, 8, 9 + (enemies.size() * 3) + i, players.get(i).getName(), Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+      printStr(screen, 27, 9 + (enemies.size() * 3) + i, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
     }
 
-    textGraphics.putString(6, 7 + (enemies.size() * 3), "> " );
+    printStr(screen, 6, 7 + (enemies.size() * 3), "> " , Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
   }
 
   public static void enemySelect(Player player, ArrayList<Enemy> enemies, Terminal terminal, Screen screen) {
     int cursor_xpos = 14;
     int cursor_ypos = 9 + (enemies.size() * 3);
     String cursor = "\u261B";   // default right pointing cursor
-    boolean physical = true;
+    boolean physical = true;    // determines what type of attack
 
     String flavortext = "> " + player.getName() + " : ";
     String temp = "";
 
+    screen.clear();
+
+    update(screen);
+
+    printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);          // puts the cursor
+    printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);   // puts the flavortext
+
+    printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+    printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+    screen.refresh();
+
     while(true) {
-      textGraphics.putString(cursor_xpos, cursor_ypos, cursor);
-      textGraphics.putString(6, 7 + (enemies.size() * 3), flavortext);
+      printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+      printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
       Key key = terminal.readInput();
 
-      updateScreen(terminal, screen);
-      textGraphics.putString(17, 9 + (enemies.size() * 3), "Attack");
-      textGraphics.putString(17, 10 + (enemies.size() * 3),  "Magic");
+      printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+      printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
       if(key != null) {
 
         if(key.getCharacter() == 'w') {
           if(cursor.equals("\u261B")) {    // if up action is permitted
-            if(cursor_ypos == 10 + (enemies.size() * 3)) { cursor_ypos -= 1; }
+            if(cursor_ypos == 10 + (enemies.size() * 3)) {
+              cursor_ypos -= 1;
+
+              update(screen);
+              printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              screen.refresh();
+            }
           } else {
             if(cursor_ypos != 5) {
-              flavortext = temp;
               cursor_ypos -= 3;
+              flavortext = temp;
+              flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
+
+              update(screen);
+              printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              screen.refresh();
+
               flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
             }
           }
-          screen.refresh();
         }
 
         if(key.getCharacter() == 's') {
           if(cursor.equals("\u261B")) {   // if down action is permitted
-            if(cursor_ypos == 9 + (enemies.size() * 3)) { cursor_ypos += 1; }
+            if(cursor_ypos == 9 + (enemies.size() * 3)) {
+                cursor_ypos += 1;
+
+                update(screen);
+                printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+                printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+                screen.refresh();
+            }
           } else {
             if(cursor_ypos != 2 + (enemies.size() * 3)) {
-              flavortext = temp;
               cursor_ypos += 3;
+              flavortext = temp;
               flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
+
+              update(screen);
+              printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+              screen.refresh();
             }
           }
-          screen.refresh();
         }
 
-        if(key.getCharacter() == 'j') {
+        if(key.getCharacter() == 'j') {    // selection
           if(cursor.equals("\u261B")) {
             if(cursor_ypos == 10 + (enemies.size() * 3)) {
               physical = false;
               flavortext += "MAGIC : ";
               temp = flavortext;
             } else {
+              physical = true;
               flavortext += "ATTACK : ";
               temp = flavortext;
             }
@@ -209,34 +265,67 @@ public class Game {
             // sets the cursor location to enemy selection
             cursor_xpos = 15;
             cursor_ypos = 5;
+            update(screen);
+            printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+            printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+            printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+            printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+            screen.refresh();
 
             flavortext = temp;
             flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
+            update(screen);
+            printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+            printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+            printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+            printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+            screen.refresh();
           } else {
             if(physical) {
               flavortext += player.attack(enemies.get((cursor_ypos - 5) / 3));
-              textGraphics.putString(6, 7 + (enemies.size() * 3), flavortext);
+              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              update(screen);
+              printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              screen.refresh();
               wait(1000);
             } else {
               flavortext += player.magicAttack(enemies.get((cursor_ypos - 5) / 3));
-              textGraphics.putString(6, 7 + (enemies.size() * 3), flavortext);
+              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              update(screen);
+              printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+              printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+              screen.refresh();
               wait(1000);
             }
             return;
           }
-          screen.refresh();
         }
 
-        if(key.getCharacter() == 'k') {
+        if(key.getCharacter() == 'k') {   // go back to select an attack
           if(cursor.equals("\u261A")) {
             cursor = "\u261B";
 
-            flavortext = temp;
+            flavortext = "> " + player.getName() + " : ";
 
             // sets the cursor location to attack selection
             cursor_xpos = 14;
             cursor_ypos = 9 + (enemies.size() * 3);
           }
+          update(screen);
+          printStr(screen, cursor_xpos, cursor_ypos, cursor, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+          printStr(screen, 6, 7 + (enemies.size() * 3), flavortext, Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+
+          printStr(screen, 17, 9 + (enemies.size() * 3), "Attack", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+          printStr(screen, 17, 10 + (enemies.size() * 3),  "Magic", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
           screen.refresh();
         }
       }
@@ -266,18 +355,20 @@ public class Game {
 
     // set up Terminal
     Terminal terminal = TerminalFacade.createTextTerminal();
-    Screen screen = new TerminalScreen(terminal);
-    TextGraphics textGraphics = screen.newTextGraphics();
+    Screen screen = new Screen(terminal);
     screen.startScreen();
 
     TerminalSize terminalSize = terminal.getTerminalSize();
     terminal.setCursorVisible(false);
 
-    int x = 8;
+    int x = 8;   // default position of cloud
     int y = 12;
 
     // first battle
     boolean f = true;
+
+    // boos battle
+    boolean b = true;
 
 
     while(true) {
@@ -285,61 +376,53 @@ public class Game {
       // mode: world map
       if(mode == 0) {
         screen.clear();
-        textGraphics.putString(0, 0, map.toString());
+        printStr(screen, 0, 0, map.toString(), Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
 
-        textGraphics.putString(x, y, "C");
+        printStr(screen, x, y, "C", Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);  // cloud
         screen.refresh();
 
-        Key key = terminal.readInput();
+        Key key = terminal.readInput();  // gets key inputs
 
         if(key != null) {
 
-          if(key.getKind() == Key.Kind.Escape) {
+          if(key.getKind() == Key.Kind.Escape) {  // escape to exit
   					terminal.exitPrivateMode();
   					System.exit(0);
   				}
 
           // arrow control scheme
-          if(key.getCharacter() == 'w') {
+          if(key.getCharacter() == 'w') {            // w to move up
             if((map.canMove(x/2, y, 0, -1) != 1)) {
-              if((map.canMove(x/2, y, 0, -1) == 2)) { terminal.clearScreen(); }
-              terminal.moveCursor(x, y);
-    					terminal.putCharacter(' ');
+              if((map.canMove(x/2, y, 0, -1) == 2)) { screen.clear(); }
     					y -= 1;
-              encounter(map, terminal);
+              encounter(map, screen);                //  chance to encounter a battle
               screen.refresh();
             }
   				}
 
-  				if(key.getCharacter() == 's') {
+  				if(key.getCharacter() == 's') {            // s to move down
             if((map.canMove(x/2, y, 0, 1) != 1)) {
-              if((map.canMove(x/2, y, 0, 1) == 2)) { terminal.clearScreen(); }
-              terminal.moveCursor(x, y);
-    					terminal.putCharacter(' ');
+              if((map.canMove(x/2, y, 0, 1) == 2)) { screen.clear(); }
     					y += 1;
-              encounter(map, terminal);
+              encounter(map, screen);                // chance to encounter a battle
               screen.refresh();
             }
   				}
 
-          if (key.getCharacter() == 'a') {
+          if (key.getCharacter() == 'a') {            // a to move left
             if((map.canMove(x/2, y, -1, 0) != 1)) {
-              if((map.canMove(x/2, y, -1, 0) == 2)) { terminal.clearScreen(); }
-              terminal.moveCursor(x, y);
-    					terminal.putCharacter(' ');
+              if((map.canMove(x/2, y, -1, 0) == 2)) { screen.clear(); }
     					x -= 2;
-              encounter(map, terminal);
+              encounter(map, screen);                 // chance to encounter a battle
               screen.refresh();
             }
           }
 
-          if (key.getCharacter() == 'd') {
+          if (key.getCharacter() == 'd') {             // d to move right
             if((map.canMove(x/2, y, 1, 0) !=1)) {
-              if((map.canMove(x/2, y, 1, 0) == 2)) { terminal.clearScreen(); }
-              terminal.moveCursor(x, y);
-    					terminal.putCharacter(' ');
+              if((map.canMove(x/2, y, 1, 0) == 2)) { screen.clear(); }
     					x += 2;
-              encounter(map, terminal);
+              encounter(map, screen);                  // chance to encounter a battle
               screen.refresh();
             }
           }
@@ -356,30 +439,37 @@ public class Game {
           f = false;
 
           // change mode --> battle
+          screen.clear();
           mode = 1;
         }
 
       // mode: battle
       } else if(mode == 1) {
+        update(screen);
 
+        //loops thought players and gives them the chance to attack
         for(int i=0; i<players.size(); i++) {
           enemySelect(players.get(i), enemies, terminal, screen);
           remove();
-          updateScreen(terminal, screen);
-          if(enemies.isEmpty()) {
-            terminal.clearScreen();
-          }
-          wait(1000);
+          update(screen);
+          screen.refresh();
+
+          // checks to see if the battle should end
+          battleEnd(screen);
+
+          screen.refresh();
+          wait(1000); // delay
         }
 
+        //loops through enemies and gives them the chance to attack
         for(int i=0; i<enemies.size(); i++) {
           Squishy target = enemies.get(i).selectTarget(players);
-          textGraphics.putString(6, 7 + (enemies.size() * 3), "> " + enemies.get(i).getName() + " " + i + " : ATTACK : " + target.getName() + " : " + enemies.get(i).attack(target, 5, 10));
+          printStr(screen, 6, 7 + (enemies.size() * 3), "> " + enemies.get(i).getName() + " " + i + " : ATTACK : " + target.getName() + " : " + enemies.get(i).attack(target, 5, 10), Terminal.Color.DEFAULT,Terminal.Color.DEFAULT);
+          screen.refresh();
           wait(1500);
-          updateScreen(terminal, screen);
         }
 
-        battleEnd(terminal);
+        screen.clear();
 
       }
 
