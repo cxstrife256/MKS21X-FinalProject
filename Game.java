@@ -159,13 +159,13 @@ public class Game {
 
         if(key.getCharacter() == 'w') {
           if(cursor_ypos > 6 + (enemies.size() * 3)) {    // if up action is permitted
-            cursor_ypos -= 4;
+            cursor_ypos -= 1;
           }
         }
 
         if(key.getCharacter() == 's') {
           if(cursor_ypos > 6 + (enemies.size() * 3)) {   // if down action is permitted
-            cursor_ypos += 4;
+            cursor_ypos += 1;
           }
         }
 
