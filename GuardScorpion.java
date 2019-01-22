@@ -1,4 +1,4 @@
-public class GuardScorpion extends Squishy {
+public class GuardScorpion extends Enemy {
 
   private boolean tail_raised;
   private boolean scanner;
@@ -26,7 +26,7 @@ public class GuardScorpion extends Squishy {
 
 
   public void takeDamage(int damage) {
-    super.takeDamage(damage); 
+    super.takeDamage(damage);
     tail_raised = true;
 
   }
