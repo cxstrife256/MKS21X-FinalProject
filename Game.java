@@ -32,6 +32,15 @@ public class Game {
 
 	}
 
+  public static void wait(int time){
+    try {
+      Thread.sleep(time);
+    } catch(InterruptedException e) {
+      e.printStackTrace();
+    }
+
+  }
+
   // spawn enemies randomly
   public static void enemySetup() {
     // enemycount [2, 3]
@@ -107,6 +116,28 @@ public class Game {
       terminal.clearScreen();
     }
 
+  }
+
+  public static void updateScreen(Terminal terminal) {
+    terminal.clearScreen();
+    // loops through list of enemies and places them on the map
+    for(int i=0; i<enemies.size(); i++) {
+      putString(8, 5 + (i * 3), terminal, enemies.get(i).getName());
+      putString(8, 6 + (i * 3), terminal, "" + enemies.get(i).getHitpoints());
+    }
+
+    // loops through list of players and places them on the map
+    for(int i=0; i<players.size(); i++) {
+      putString(30, 5 + (i * 3), terminal, "" + players.get(i).getName().charAt(0));
+      putString(30, 6 + (i * 3), terminal, "" + players.get(i).getHitpoints());
+    }
+
+    putString(6, 5 + (enemies.size() * 3), terminal, "------------------------------------------------------");
+
+    for(int i=0; i<players.size(); i++) {
+      putString(8, 7 + (enemies.size() * 3) + i, terminal, players.get(i).getName());
+      putString(27, 7 + (enemies.size() * 3) + i, terminal, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100");
+    }
   }
 
   public static void main(String[] args) {
@@ -231,47 +262,15 @@ public class Game {
 
       // mode: battle
       } else if(mode == 1) {
-        terminal.clearScreen();
-        // loops through list of enemies and places them on the map
-        for(int i=0; i<enemies.size(); i++) {
-          putString(8, 5 + (i * 3), terminal, enemies.get(i).getName());
-          putString(8, 6 + (i * 3), terminal, "" + enemies.get(i).getHitpoints());
-        }
+        Cloud.attack(enemies.get(0), 12);
+        remove();
+        updateScreen(terminal);
+        wait(1000);
 
-        // loops through list of players and places them on the map
-        for(int i=0; i<players.size(); i++) {
-          putString(30, 5 + (i * 3), terminal, "" + players.get(i).getName().charAt(0));
-          putString(30, 6 + (i * 3), terminal, "" + players.get(i).getHitpoints());
-        }
-
-        putString(6, 5 + (enemies.size() * 3), terminal, "------------------------------------------------------");
-
-        for(int i=0; i<players.size(); i++) {
-          putString(8, 7 + (enemies.size() * 3) + i, terminal, players.get(i).getName());
-          putString(27, 7 + (enemies.size() * 3) + i, terminal, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100");
-        }
-
-        if(player_turn) {
-          if(currentTime > lastTime + 1000) {
-            Cloud.attack(enemies.get(0), 12);
-            remove();
-            player_turn = false;  // player has attacked, start enemy turn
-            lastTime = currentTime;
-          }
-        } else {
-          while(k<enemies.size()) {
-            if(currentTime > lastTime + 1000) {
-              enemies.get(i).attack(enemies.get(i).selectTarget(players), 5, 10);
-              k++;
-              remove();
-              lastTime = currentTime;
-            }
-          }
-        }
-
-        if(k == enemies.size() - 1) {   // all enemies have attacked, start player turn
-          player_turn = true;
-          k = 0;
+        for(int i = 0; i < enemies.size(); i++) {
+          enemies.get(k).attack(enemies.get(k).selectTarget(players), 5, 10);
+          updateScreen(terminal);
+          wait(1000);
         }
 
         battleEnd(terminal);
