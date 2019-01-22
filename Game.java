@@ -166,7 +166,7 @@ public class Game {
           if(cursor.equals("\u261B")) {   // if down action is permitted
             cursor_ypos += 1;
           } else {
-            cursor_ypos += 4
+            cursor_ypos += 4;
           }
         }
 
