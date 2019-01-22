@@ -11,6 +11,9 @@ import com.googlecode.lanterna.input.InputProvider;
 import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.input.KeyMappingProfile;
 
+import com.googlecode.lanterna.screen.*;
+import com.googlecode.lanterna.graphics.TextGraphics;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -24,13 +27,18 @@ public class Game {
   private static ArrayList<Player> players;
   private static ArrayList<Enemy> enemies;
 
-  public static void putString(int row, int col, Terminal t, String str) { // replace with screen
-		t.moveCursor(row, col);
-		for(int i=0; i<str.length(); i++) {
-			t.putCharacter(str.charAt(i));
-		}
-
-	}
+  // public static void textGraphics.putString(int row, int col, String str, Screen screen) { // replace with screen
+  //   int l = col;
+	// 	for(int i=0; i<str.length(); i++) {
+  //     if(str.charAt(i) == '\n') {
+  //       l = col;
+  //       row += 1;
+  //     }
+	// 		screen.setCharacter(row, col+l, str.charAt(i));
+  //     l++;
+	// 	}
+  //
+	// }
 
   public static void wait(int time){
     try {
@@ -111,34 +119,34 @@ public class Game {
       terminal.clearScreen();
       mode = 0;
 
-
     }
 
   }
 
-  public static void updateScreen(Terminal terminal) {
-    terminal.clearScreen();
+  public static void updateScreen(Terminal terminal, Screen screen) {
     // loops through list of enemies and places them on the map
     for(int i=0; i<enemies.size(); i++) {
-      putString(8, 5 + (i * 3), terminal, enemies.get(i).getName());
-      putString(8, 6 + (i * 3), terminal, "" + enemies.get(i).getHitpoints());
+      textGraphics.putString(8, 5 + (i * 3), enemies.get(i).getName());
+      textGraphics.putString(8, 6 + (i * 3), "" + enemies.get(i).getHitpoints());
     }
 
     // loops through list of players and places them on the map
     for(int i=0; i<players.size(); i++) {
-      putString(30, 5 + (i * 3), terminal, "" + players.get(i).getName().charAt(0));
-      putString(30, 6 + (i * 3), terminal, "" + players.get(i).getHitpoints());
+      textGraphics.putString(30, 5 + (i * 3), "" + players.get(i).getName().charAt(0));
+      textGraphics.putString(30, 6 + (i * 3), "" + players.get(i).getHitpoints(), screen );
     }
 
-    putString(6, 5 + (enemies.size() * 3), terminal, "------------------------------------------------------");
+    textGraphics.putString(6, 5 + (enemies.size() * 3), "------------------------------------------------------");
 
     for(int i=0; i<players.size(); i++) {
-      putString(8, 9 + (enemies.size() * 3) + i, terminal, players.get(i).getName());
-      putString(27, 9 + (enemies.size() * 3) + i, terminal, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100");
+      textGraphics.putString(8, 9 + (enemies.size() * 3) + i, players.get(i).getName());
+      textGraphics.putString(27, 9 + (enemies.size() * 3) + i, "HP " + players.get(i).getHitpoints() + " / " + players.get(i).getMaxHitpoints() + "    MP " + players.get(i).getManaPoints() + "    LIMIT " + players.get(i).getDamage_taken() + " / 100");
     }
+
+    textGraphics.putString(6, 7 + (enemies.size() * 3), "> " );
   }
 
-  public static void enemySelect(Player player, ArrayList<Enemy> enemies, Terminal terminal) {
+  public static void enemySelect(Player player, ArrayList<Enemy> enemies, Terminal terminal, Screen screen) {
     int cursor_xpos = 14;
     int cursor_ypos = 9 + (enemies.size() * 3);
     String cursor = "\u261B";   // default right pointing cursor
@@ -148,14 +156,14 @@ public class Game {
     String temp = "";
 
     while(true) {
-      putString(cursor_xpos, cursor_ypos, terminal, cursor);
-      putString(6, 7 + (enemies.size() * 3), terminal, flavortext);
+      textGraphics.putString(cursor_xpos, cursor_ypos, cursor);
+      textGraphics.putString(6, 7 + (enemies.size() * 3), flavortext);
 
       Key key = terminal.readInput();
 
-      updateScreen(terminal);
-      putString(17, 9 + (enemies.size() * 3), terminal, "Attack");
-      putString(17, 10 + (enemies.size() * 3), terminal, "Magic");
+      updateScreen(terminal, screen);
+      textGraphics.putString(17, 9 + (enemies.size() * 3), "Attack");
+      textGraphics.putString(17, 10 + (enemies.size() * 3),  "Magic");
 
       if(key != null) {
 
@@ -169,6 +177,7 @@ public class Game {
               flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
             }
           }
+          screen.refresh();
         }
 
         if(key.getCharacter() == 's') {
@@ -181,6 +190,7 @@ public class Game {
               flavortext += enemies.get((cursor_ypos - 5) / 3).getName() + " " + ((cursor_ypos - 5) / 3) + " : ";
             }
           }
+          screen.refresh();
         }
 
         if(key.getCharacter() == 'j') {
@@ -205,25 +215,29 @@ public class Game {
           } else {
             if(physical) {
               flavortext += player.attack(enemies.get((cursor_ypos - 5) / 3));
-              putString(6, 7 + (enemies.size() * 3), terminal, flavortext);
+              textGraphics.putString(6, 7 + (enemies.size() * 3), flavortext);
               wait(1000);
             } else {
               flavortext += player.magicAttack(enemies.get((cursor_ypos - 5) / 3));
-              putString(6, 7 + (enemies.size() * 3), terminal, flavortext);
+              textGraphics.putString(6, 7 + (enemies.size() * 3), flavortext);
               wait(1000);
             }
             return;
           }
+          screen.refresh();
         }
 
         if(key.getCharacter() == 'k') {
           if(cursor.equals("\u261A")) {
             cursor = "\u261B";
 
+            flavortext = temp;
+
             // sets the cursor location to attack selection
             cursor_xpos = 14;
             cursor_ypos = 9 + (enemies.size() * 3);
           }
+          screen.refresh();
         }
       }
     }
@@ -252,7 +266,9 @@ public class Game {
 
     // set up Terminal
     Terminal terminal = TerminalFacade.createTextTerminal();
-    terminal.enterPrivateMode();
+    Screen screen = new TerminalScreen(terminal);
+    TextGraphics textGraphics = screen.newTextGraphics();
+    screen.startScreen();
 
     TerminalSize terminalSize = terminal.getTerminalSize();
     terminal.setCursorVisible(false);
@@ -263,16 +279,16 @@ public class Game {
     // first battle
     boolean f = true;
 
-    int k = 0;
 
     while(true) {
 
       // mode: world map
       if(mode == 0) {
-        putString(0, 0, terminal, map.toString());
+        screen.clear();
+        textGraphics.putString(0, 0, map.toString());
 
-        terminal.moveCursor(x, y);
-        terminal.putCharacter('C');
+        textGraphics.putString(x, y, "C");
+        screen.refresh();
 
         Key key = terminal.readInput();
 
@@ -291,7 +307,7 @@ public class Game {
     					terminal.putCharacter(' ');
     					y -= 1;
               encounter(map, terminal);
-              terminal.clearScreen();
+              screen.refresh();
             }
   				}
 
@@ -302,7 +318,7 @@ public class Game {
     					terminal.putCharacter(' ');
     					y += 1;
               encounter(map, terminal);
-              terminal.clearScreen();
+              screen.refresh();
             }
   				}
 
@@ -313,7 +329,7 @@ public class Game {
     					terminal.putCharacter(' ');
     					x -= 2;
               encounter(map, terminal);
-              terminal.clearScreen();
+              screen.refresh();
             }
           }
 
@@ -324,7 +340,7 @@ public class Game {
     					terminal.putCharacter(' ');
     					x += 2;
               encounter(map, terminal);
-              terminal.clearScreen();
+              screen.refresh();
             }
           }
 
@@ -345,10 +361,11 @@ public class Game {
 
       // mode: battle
       } else if(mode == 1) {
+
         for(int i=0; i<players.size(); i++) {
-          enemySelect(players.get(i), enemies, terminal);
+          enemySelect(players.get(i), enemies, terminal, screen);
           remove();
-          updateScreen(terminal);
+          updateScreen(terminal, screen);
           if(enemies.isEmpty()) {
             terminal.clearScreen();
           }
@@ -357,9 +374,9 @@ public class Game {
 
         for(int i=0; i<enemies.size(); i++) {
           Squishy target = enemies.get(i).selectTarget(players);
-          putString(6, 7 + (enemies.size() * 3), terminal, "> " + enemies.get(i).getName() + " " + i + " : ATTACK : " + target.getName() + " : " + enemies.get(i).attack(target, 5, 10));
+          textGraphics.putString(6, 7 + (enemies.size() * 3), "> " + enemies.get(i).getName() + " " + i + " : ATTACK : " + target.getName() + " : " + enemies.get(i).attack(target, 5, 10));
           wait(1500);
-          updateScreen(terminal);
+          updateScreen(terminal, screen);
         }
 
         battleEnd(terminal);
