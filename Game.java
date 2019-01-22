@@ -165,6 +165,8 @@ public class Game {
         if(key.getCharacter() == 's') {
           if(cursor.equals("\u261B")) {   // if down action is permitted
             cursor_ypos += 1;
+          } else {
+            cursor_ypos += 4
           }
         }
 
